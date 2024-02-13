@@ -414,6 +414,7 @@
 	non-removable;
 	ti,driver-strength-ohm = <50>;
 	disable-wp;
+	bootph-all;
 };
 
 &sdhci1 {
