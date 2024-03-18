@@ -5,3 +5,17 @@
 # FLAVOUR_DEP: {'amd64-oem': 'amd64-generic'}
 
 include "../../debian.master/config/annotations"
+
+
+# ---- Annotations without notes ----
+
+CONFIG_AX88796B_RUST_PHY                        policy<{'amd64': '-'}>
+CONFIG_BINDGEN_VERSION_TEXT                     policy<{'amd64': '-'}>
+CONFIG_CONSTRUCTORS                             policy<{'amd64': '-'}>
+CONFIG_RUST                                     policy<{'amd64': 'n'}>
+CONFIG_RUSTC_VERSION_TEXT                       policy<{'amd64': '-'}>
+CONFIG_RUST_BUILD_ASSERT_ALLOW                  policy<{'amd64': '-'}>
+CONFIG_RUST_DEBUG_ASSERTIONS                    policy<{'amd64': '-'}>
+CONFIG_RUST_OVERFLOW_CHECKS                     policy<{'amd64': '-'}>
+CONFIG_RUST_PHYLIB_ABSTRACTIONS                 policy<{'amd64': '-'}>
+CONFIG_SAMPLES_RUST                             policy<{'amd64': '-'}>
