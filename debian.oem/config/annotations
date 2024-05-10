@@ -11,6 +11,7 @@ include "../../debian.master/config/annotations"
 
 CONFIG_AX88796B_RUST_PHY                        policy<{'amd64': '-'}>
 CONFIG_BINDGEN_VERSION_TEXT                     policy<{'amd64': '-'}>
+CONFIG_CC_VERSION_TEXT                          policy<{'amd64': '"x86_64-linux-gnu-gcc-13 (Ubuntu 13.2.0-17ubuntu2) 13.2.0"'}>
 CONFIG_CONSTRUCTORS                             policy<{'amd64': '-'}>
 CONFIG_RUST                                     policy<{'amd64': 'n'}>
 CONFIG_RUSTC_VERSION_TEXT                       policy<{'amd64': '-'}>
