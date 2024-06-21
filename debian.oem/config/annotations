@@ -7,6 +7,7 @@ include "../../debian.master/config/annotations"
 
 # ---- Annotations without notes ----
 
+CONFIG_AMD_ISP4                                 policy<{'amd64': 'm'}>
 CONFIG_ARCH_SUPPORTS_HUGE_PFNMAP                policy<{'amd64': 'y'}>
 CONFIG_ARCH_SUPPORTS_PMD_PFNMAP                 policy<{'amd64': 'y'}>
 CONFIG_ARCH_SUPPORTS_PUD_PFNMAP                 policy<{'amd64': 'y'}>
