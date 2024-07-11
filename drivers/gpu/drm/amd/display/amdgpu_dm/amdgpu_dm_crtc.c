@@ -277,6 +277,11 @@ static void amdgpu_dm_crtc_vblank_control_worker(struct work_struct *work)
 		dc_allow_idle_optimizations(dm->dc, true);
 	}
 
+	if (dm->active_vblank_irq_count == 0) {
+		DRM_DEBUG_KMS("Allow idle optimizations (MALL): true\n");
+		dc_allow_idle_optimizations(dm->dc, true);
+	}
+
 	mutex_unlock(&dm->dc_lock);
 
 	dc_stream_release(vblank_work->stream);
