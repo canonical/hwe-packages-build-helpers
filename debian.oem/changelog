@@ -1,3 +1,9 @@
+linux-oem-6.11 (6.11.0-1000.0) noble; urgency=medium
+
+  * Dummy changelog entry.
+
+ -- Timo Aaltonen <timo.aaltonen@canonical.com>  Wed, 07 Aug 2024 08:59:03 +0300
+
 linux-unstable (6.11.0-1.1) oracular; urgency=medium
 
   * oracular/linux-unstable: 6.11.0-1.1 -proposed tracker (LP: #2076116)
