@@ -266,6 +266,11 @@ enum DC_DEBUG_MASK {
 	DC_DISABLE_PSR_SU = 0x200,
 	DC_DISABLE_REPLAY = 0x400,
 	DC_DISABLE_IPS = 0x800,
+	/**
+	 * @DC_DISABLE_ACPI_EDID: If set, don't attempt to fetch EDID for
+	 * eDP display from ACPI _DDC method.
+	 */
+	DC_DISABLE_ACPI_EDID = 0x8000,
 };
 
 enum amd_dpm_forced_level;
