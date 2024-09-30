@@ -7301,6 +7301,7 @@ static int selinux_uring_allowed(void)
 static const struct lsm_id selinux_lsmid = {
 	.name = "selinux",
 	.id = LSM_ID_SELINUX,
+	.lsmprop = true,
 };
 
 /*
