@@ -28,6 +28,8 @@
 
 
 #define AMD_MAX_USEC_TIMEOUT		1000000  /* 1000 ms */
+struct amdgpu_ip_block;
+
 
 /*
  * Chip flags
