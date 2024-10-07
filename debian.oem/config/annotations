@@ -18,6 +18,7 @@ CONFIG_CC_HAS_MIN_FUNCTION_ALIGNMENT            policy<{'amd64': '-'}>
 CONFIG_CC_HAS_NAMED_AS_FIXED_SANITIZERS         policy<{'amd64': '-'}>
 CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT           policy<{'amd64': '-'}>
 CONFIG_CC_VERSION_TEXT                          policy<{'amd64': '"x86_64-linux-gnu-gcc-13 (Ubuntu 13.2.0-23ubuntu4) 13.2.0"'}>
+CONFIG_DELL_UART_BACKLIGHT                      policy<{'amd64': 'm'}>
 CONFIG_GCC_ASM_GOTO_OUTPUT_BROKEN               policy<{'amd64': 'y'}>
 CONFIG_GCC_VERSION                              policy<{'amd64': '130200'}>
 CONFIG_LD_VERSION                               policy<{'amd64': '24200'}>
