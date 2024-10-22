@@ -5421,6 +5421,86 @@ static bool rtl_aspm_dell_workaround(struct rtl8169_private *tp)
 				DMI_MATCH(DMI_PRODUCT_SKU, "0C98"),
 			},
 		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_NAME, "Dell Pro 14 PC14250"),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0CFB"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_NAME, "Dell Pro 16 PC16250"),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0CFC"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_NAME, "Dell Tower ECT1250"),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D10"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_NAME, "Dell Tower ECT1250 - China HDD Protection"),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D11"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_NAME, "Dell Slim ECS1250"),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D0E"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_NAME, "Dell Slim ECS1250 - China HDD Protection"),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D0F"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_NAME, "Dell Tower ECT1250"),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D20"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_NAME, "Dell Tower ECT1250- China HDD Protection"),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D21"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_NAME, "Dell Slim ECS1250"),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D1E"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_NAME, "Dell Slim ECS1250 - China HDD Protection"),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D1F"),
+			},
+		},
 		{}
 	};
 
