@@ -5501,6 +5501,13 @@ static bool rtl_aspm_dell_workaround(struct rtl8169_private *tp)
 				DMI_MATCH(DMI_PRODUCT_SKU, "0D1F"),
 			},
 		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Alienware"),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D35"),
+			},
+		},
 		{}
 	};
 
