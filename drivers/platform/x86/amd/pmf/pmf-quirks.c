@@ -48,6 +48,143 @@ static const struct dmi_system_id fwbug_list[] = {
 	{}
 };
 
+static const struct dmi_system_id platform_prefers_bios_list[] = {
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D47"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D48"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D5F"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D60"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D4D"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D4E"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D61"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D5C"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D5D"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D65"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D49"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D5E"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D4F"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D50"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D51"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D53"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D54"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D52"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D55"),
+		},
+	},
+	{}
+};
+
 void amd_pmf_quirks_init(struct amd_pmf_dev *dev)
 {
 	const struct dmi_system_id *dmi_id;
@@ -63,4 +200,16 @@ void amd_pmf_quirks_init(struct amd_pmf_dev *dev)
 		pr_info("Using supported funcs quirk to avoid %s platform firmware bug\n",
 			dmi_id->ident);
 	}
+}
+
+bool amd_pmf_prefer_bios()
+{
+	const struct dmi_system_id *dmi_id;
+
+	dmi_id = dmi_first_match(platform_prefers_bios_list);
+
+	if (dmi_id)
+		return true;
+
+	return false;
 }

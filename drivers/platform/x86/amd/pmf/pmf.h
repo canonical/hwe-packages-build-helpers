@@ -782,5 +782,6 @@ void amd_pmf_dump_ta_inputs(struct amd_pmf_dev *dev, struct ta_pmf_enact_table *
 
 /* Quirk infrastructure */
 void amd_pmf_quirks_init(struct amd_pmf_dev *dev);
+bool amd_pmf_prefer_bios(void);
 
 #endif /* PMF_H */

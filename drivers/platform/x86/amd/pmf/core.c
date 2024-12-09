@@ -411,6 +411,12 @@ static int amd_pmf_probe(struct platform_device *pdev)
 	if (!id)
 		return -ENODEV;
 
+	if (amd_pmf_prefer_bios() && !force_load) {
+		dev_warn(&pdev->dev, "Platform prefers BIOS over PMF module. "
+				     "Finish PMF driver probe early.\n");
+		return -ENODEV;
+	}
+
 	if (id->driver_data == 0x100 && !force_load)
 		return -ENODEV;
 
