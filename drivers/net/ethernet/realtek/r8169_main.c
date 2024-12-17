@@ -2955,6 +2955,20 @@ static void rtl_disable_exit_l1(struct rtl8169_private *tp)
 	}
 }
 
+static void rtl_reset_pci_ltr(struct rtl8169_private *tp)
+{
+	struct pci_dev *pdev = tp->pci_dev;
+	u16 cap;
+
+	pcie_capability_read_word(pdev, PCI_EXP_DEVCTL2, &cap);
+	if (cap & PCI_EXP_DEVCTL2_LTR_EN) {
+		pcie_capability_clear_word(pdev, PCI_EXP_DEVCTL2,
+					   PCI_EXP_DEVCTL2_LTR_EN);
+		pcie_capability_set_word(pdev, PCI_EXP_DEVCTL2,
+					 PCI_EXP_DEVCTL2_LTR_EN);
+	}
+}
+
 static void rtl_enable_ltr(struct rtl8169_private *tp)
 {
 	switch (tp->mac_version) {
@@ -2994,8 +3008,12 @@ static void rtl_enable_ltr(struct rtl8169_private *tp)
 	default:
 		return;
 	}
+
 	/* chip can trigger LTR */
 	r8168_mac_ocp_modify(tp, 0xe032, 0x0003, BIT(0));
+
+	/* reset LTR to notify host */
+	rtl_reset_pci_ltr(tp);
 }
 
 static void rtl_disable_ltr(struct rtl8169_private *tp)
