@@ -5595,7 +5595,7 @@ static bool rtl_aspm_dell_workaround(struct rtl8169_private *tp)
 		{}
 	};
 
-	if (tp->mac_version == RTL_GIGA_MAC_VER_46 && dmi_check_system(sysids))
+	if (dmi_check_system(sysids))
 		return true;
 
 	return false;
