@@ -5608,6 +5608,55 @@ static bool rtl_aspm_dell_workaround(struct rtl8169_private *tp)
 				DMI_MATCH(DMI_PRODUCT_SKU, "0CD8"),
 			},
 		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0CE1"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0CFD"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0CFF"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D07"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D03"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D14"),
+			},
+		},
+		{
+			.ident = "Dell",
+			.matches = {
+				DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+				DMI_MATCH(DMI_PRODUCT_SKU, "0D58"),
+			},
+		},
 		{}
 	};
 
