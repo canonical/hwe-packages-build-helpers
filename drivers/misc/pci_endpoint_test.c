@@ -283,10 +283,12 @@ static bool pci_endpoint_test_bar(struct pci_endpoint_test *test,
 	int size;
 	struct pci_dev *pdev = test->pdev;
 
+	size = pci_resource_len(pdev, barno);
+	if (!size)
+		return -ENODATA;
+
 	if (!test->bar[barno])
 		return false;
-
-	size = pci_resource_len(pdev, barno);
 
 	if (barno == test->test_reg_bar)
 		size = 0x4;
