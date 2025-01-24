@@ -6733,6 +6733,9 @@ CONFIG_INTEL_IPS                                policy<{'amd64': 'm'}>
 CONFIG_INTEL_ISHTP_ECLITE                       policy<{'amd64': 'm'}>
 CONFIG_INTEL_ISH_FIRMWARE_DOWNLOADER            policy<{'amd64': 'm'}>
 CONFIG_INTEL_ISH_HID                            policy<{'amd64': 'm'}>
+CONFIG_INTEL_QUICKI2C                           policy<{'amd64': 'm'}>
+CONFIG_INTEL_QUICKSPI                           policy<{'amd64': 'm'}>
+CONFIG_INTEL_THC_HID                            policy<{'amd64': 'm'}>
 CONFIG_INTEL_LDMA                               policy<{'amd64': 'y'}>
 CONFIG_INTEL_MEI                                policy<{'amd64': 'm'}>
 CONFIG_INTEL_MEI_GSC                            policy<{'amd64': 'm'}>
