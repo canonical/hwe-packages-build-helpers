@@ -23,6 +23,7 @@
 
 #include <trace/events/page_pool.h>
 
+#include "dev.h"
 #include "page_pool_priv.h"
 
 #define DEFER_TIME (msecs_to_jiffies(1000))
@@ -945,11 +946,7 @@ void page_pool_unlink_napi(struct page_pool *pool)
 	if (!pool->p.napi)
 		return;
 
-	/* To avoid races with recycling and additional barriers make sure
-	 * pool and NAPI are unlinked when NAPI is disabled.
-	 */
-	WARN_ON(!test_bit(NAPI_STATE_SCHED, &pool->p.napi->state) ||
-		READ_ONCE(pool->p.napi->list_owner) != -1);
+	napi_assert_will_not_race(pool->p.napi);
 
 	WRITE_ONCE(pool->p.napi, NULL);
 }
