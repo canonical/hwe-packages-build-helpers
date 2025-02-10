@@ -125,6 +125,9 @@ static int loongson_dwmac_probe(struct pci_dev *pdev, const struct pci_device_id
 	memset(&res, 0, sizeof(res));
 	res.addr = pcim_iomap_table(pdev)[0];
 
+	plat->tx_fifo_size = SZ_16K * plat->tx_queues_to_use;
+	plat->rx_fifo_size = SZ_16K * plat->rx_queues_to_use;
+
 	res.irq = of_irq_get_byname(np, "macirq");
 	if (res.irq < 0) {
 		dev_err(&pdev->dev, "IRQ macirq not found\n");
