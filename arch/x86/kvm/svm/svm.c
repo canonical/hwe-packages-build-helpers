@@ -602,6 +602,9 @@ static void svm_hardware_disable(void)
 	kvm_cpu_svm_disable();
 
 	amd_pmu_disable_virt();
+
+	if (cpu_feature_enabled(X86_FEATURE_SRSO_BP_SPEC_REDUCE))
+		msr_clear_bit(MSR_ZEN4_BP_CFG, MSR_ZEN4_BP_CFG_BP_SPEC_REDUCE_BIT);
 }
 
 static int svm_hardware_enable(void)
@@ -681,6 +684,9 @@ static int svm_hardware_enable(void)
 
 		rdmsr(MSR_TSC_AUX, hostsa->tsc_aux, msr_hi);
 	}
+
+	if (cpu_feature_enabled(X86_FEATURE_SRSO_BP_SPEC_REDUCE))
+		msr_set_bit(MSR_ZEN4_BP_CFG, MSR_ZEN4_BP_CFG_BP_SPEC_REDUCE_BIT);
 
 	return 0;
 }
