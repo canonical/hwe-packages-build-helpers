@@ -4608,7 +4608,6 @@ int btrfs_search_forward(struct btrfs_root *root, struct btrfs_key *min_key,
 			 u64 min_trans)
 {
 	struct extent_buffer *cur;
-	struct btrfs_key found_key;
 	int slot;
 	int sret;
 	u32 nritems;
@@ -4644,7 +4643,8 @@ again:
 				goto find_next_key;
 			ret = 0;
 			path->slots[level] = slot;
-			btrfs_item_key_to_cpu(cur, &found_key, slot);
+			/* Save our key for returning back. */
+			btrfs_item_key_to_cpu(cur, min_key, slot);
 			goto out;
 		}
 		if (sret && slot > 0)
@@ -4679,11 +4679,11 @@ find_next_key:
 				goto out;
 			}
 		}
-		/* save our key for returning back */
-		btrfs_node_key_to_cpu(cur, &found_key, slot);
 		path->slots[level] = slot;
 		if (level == path->lowest_level) {
 			ret = 0;
+			/* Save our key for returning back. */
+			btrfs_node_key_to_cpu(cur, min_key, slot);
 			goto out;
 		}
 		cur = btrfs_read_node_slot(cur, slot);
@@ -4700,10 +4700,8 @@ find_next_key:
 	}
 out:
 	path->keep_locks = keep_locks;
-	if (ret == 0) {
+	if (ret == 0)
 		btrfs_unlock_up_safe(path, path->lowest_level + 1);
-		memcpy(min_key, &found_key, sizeof(found_key));
-	}
 	return ret;
 }
 
