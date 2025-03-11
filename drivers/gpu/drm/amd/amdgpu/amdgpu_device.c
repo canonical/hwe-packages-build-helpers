@@ -3630,8 +3630,9 @@ static int amdgpu_device_ip_suspend_phase2(struct amdgpu_device *adev)
 		    adev->ip_blocks[i].version->type == AMD_IP_BLOCK_TYPE_PSP)
 			continue;
 
-		/* XXX handle errors */
 		r = amdgpu_ip_block_suspend(&adev->ip_blocks[i]);
+		if (r)
+			return r;
 
 		/* handle putting the SMC in the appropriate state */
 		if (!amdgpu_sriov_vf(adev)) {
@@ -4950,7 +4951,9 @@ int amdgpu_device_suspend(struct drm_device *dev, bool notify_clients)
 
 	amdgpu_ras_suspend(adev);
 
-	amdgpu_device_ip_suspend_phase1(adev);
+	r = amdgpu_device_ip_suspend_phase1(adev);
+	if (r)
+		return r;
 
 	if (!adev->in_s0ix)
 		amdgpu_amdkfd_suspend(adev, adev->in_runpm);
@@ -4963,7 +4966,9 @@ int amdgpu_device_suspend(struct drm_device *dev, bool notify_clients)
 
 	amdgpu_fence_driver_hw_fini(adev);
 
-	amdgpu_device_ip_suspend_phase2(adev);
+	r = amdgpu_device_ip_suspend_phase2(adev);
+	if (r)
+		return r;
 
 	if (amdgpu_sriov_vf(adev))
 		amdgpu_virt_release_full_gpu(adev, false);
