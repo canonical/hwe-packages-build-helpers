@@ -47,7 +47,7 @@ Build-Depends:
  python3-setuptools,
  rsync [!i386] <!stage1>,
  rust-src [amd64 arm64 armhf ppc64el riscv64 s390x],
- rustc (>= 1.82) [amd64 arm64 armhf ppc64el riscv64 s390x],
+ rustc [amd64 arm64 armhf ppc64el riscv64 s390x],
  rustfmt [amd64 arm64 armhf ppc64el riscv64 s390x],
  uuid-dev <!stage1>,
  zstd <!stage1>,
