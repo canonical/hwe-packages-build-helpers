@@ -1,3 +1,9 @@
+linux-oem-6.14 (6.14.0-1000.0) noble; urgency=medium
+
+  * Dummy changelog entry.
+
+ -- Kuan-Ying Lee <kuan-ying.lee@canonical.com>  Wed, 12 Mar 2025 13:39:02 +0800
+
 linux (6.14.0-9.9) plucky; urgency=medium
 
   * plucky/linux: 6.14.0-9.9 -proposed tracker (LP: #2101943)
