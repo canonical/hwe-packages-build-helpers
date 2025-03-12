@@ -57,7 +57,7 @@ Build-Depends-Indep:
  python3-docutils <!stage1>,
  sharutils <!stage1>,
  xmlto <!stage1>,
-Vcs-Git: git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/=SERIES=
+Vcs-Git: git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux-oem/+git/=SERIES= -b oem-6.14
 XS-Testsuite: autopkgtest
 #XS-Testsuite-Depends: gcc-4.7 binutils
 
@@ -75,7 +75,7 @@ Description: Header files related to Linux kernel version PKGVER
 
 Package: SRCPKGNAME-tools-PKGVER-ABINUM
 Build-Profiles: <!stage1>
-Architecture: amd64 armhf arm64 ppc64el s390x
+Architecture: amd64
 Section: devel
 Priority: optional
 Depends: ${misc:Depends}, ${shlibs:Depends}, linux-tools-common
@@ -84,14 +84,3 @@ Description: Linux kernel version specific tools for version PKGVER-ABINUM
  version locked tools (such as perf and x86_energy_perf_policy) for
  version PKGVER-ABINUM.
  You probably want to install linux-tools-PKGVER-ABINUM-<flavour>.
-
-Package: SRCPKGNAME-cloud-tools-PKGVER-ABINUM
-Build-Profiles: <!stage1>
-Architecture: amd64 armhf
-Section: devel
-Priority: optional
-Depends: ${misc:Depends}, ${shlibs:Depends}, linux-cloud-tools-common
-Description: Linux kernel version specific cloud tools for version PKGVER-ABINUM
- This package provides the architecture dependant parts for kernel
- version locked tools for cloud tools for version PKGVER-ABINUM.
- You probably want to install linux-cloud-tools-PKGVER-ABINUM-<flavour>.
