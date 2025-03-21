@@ -25,6 +25,8 @@ CONFIG_GCC_ASM_GOTO_OUTPUT_BROKEN               policy<{'amd64': '-'}>
 CONFIG_GCC_VERSION                              policy<{'amd64': '130300'}>
 CONFIG_LD_VERSION                               policy<{'amd64': '24200'}>
 CONFIG_PAHOLE_VERSION                           policy<{'amd64': '125'}>
+CONFIG_RTW89_8852BT                             policy<{'amd64': 'm'}>
+CONFIG_RTW89_8852BTE                            policy<{'amd64': 'm'}>
 CONFIG_RUST                                     policy<{'amd64': '-'}>
 CONFIG_RUSTC_VERSION_TEXT                       policy<{'amd64': '-'}>
 CONFIG_RUST_BUILD_ASSERT_ALLOW                  policy<{'amd64': '-'}>
