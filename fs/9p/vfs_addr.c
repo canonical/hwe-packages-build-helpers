@@ -144,4 +144,5 @@ const struct address_space_operations v9fs_addr_operations = {
 	.launder_folio		= netfs_launder_folio,
 	.direct_IO		= noop_direct_IO,
 	.writepages		= netfs_writepages,
+	.migrate_folio		= filemap_migrate_folio,
 };
