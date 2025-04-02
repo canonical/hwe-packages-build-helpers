@@ -17,6 +17,7 @@
 struct quirk_entry {
 	u32 s2idle_bug_mmio;
 	bool spurious_8042;
+	bool vr_ovp;
 };
 
 static struct quirk_entry quirk_s2idle_bug = {
@@ -25,6 +26,10 @@ static struct quirk_entry quirk_s2idle_bug = {
 
 static struct quirk_entry quirk_spurious_8042 = {
 	.spurious_8042 = true,
+};
+
+static struct quirk_entry quirk_vr_ovp = {
+	.vr_ovp = true,
 };
 
 static const struct dmi_system_id fwbug_list[] = {
@@ -271,4 +276,6 @@ void amd_pmc_quirks_init(struct amd_pmc_dev *dev)
 			dmi_id->ident);
 	if (dev->quirks->spurious_8042)
 		dev->disable_8042_wakeup = true;
+	if (dev->quirks->vr_ovp)
+		dev->ovp_delay = true;
 }
