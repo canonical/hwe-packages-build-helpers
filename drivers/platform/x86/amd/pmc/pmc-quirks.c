@@ -240,14 +240,6 @@ static const struct dmi_system_id fwbug_list[] = {
 		}
 	},
 	{
-		.ident = "DELL PRO 13 PLUS PB13255 (KRK)",
-		.driver_data = &quirk_vr_ovp,
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D49"),
-		}
-	},
-	{
 		.ident = "DELL PRO 13 PLUS PB13255 360 (HPT1)",
 		.driver_data = &quirk_vr_ovp,
 		.matches = {
@@ -264,54 +256,6 @@ static const struct dmi_system_id fwbug_list[] = {
 		}
 	},
 	{
-		.ident = "DELL PRO 13 PLUS PB13255 360 (KRK)",
-		.driver_data = &quirk_vr_ovp,
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D4C"),
-		}
-	},
-	{
-		.ident = "DELL PRO 13 PLUS PB13255 CS (Strix)",
-		.driver_data = &quirk_vr_ovp,
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D61"),
-		}
-	},
-	{
-		.ident = "DELL PRO 13 PLUS PB13255 360 (Strix)",
-		.driver_data = &quirk_vr_ovp,
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D62"),
-		}
-	},
-	{
-		.ident = "DELL PRO 14 PLUS PB14255 CS (STX)",
-		.driver_data = &quirk_vr_ovp,
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D5C"),
-		}
-	},
-	{
-		.ident = "DELL PRO 14 PLUS PB14255 CS (STX 2-in-1)",
-		.driver_data = &quirk_vr_ovp,
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D5D"),
-		}
-	},
-	{
-		.ident = "DELL PRO 14 PLUS PB14255 CS (KRK)",
-		.driver_data = &quirk_vr_ovp,
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D5E"),
-		}
-	},
-	{
 		.ident = "DELL PRO 14 PLUS PB14255 (HPT1)",
 		.driver_data = &quirk_vr_ovp,
 		.matches = {
@@ -325,14 +269,6 @@ static const struct dmi_system_id fwbug_list[] = {
 		.matches = {
 			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D60"),
-		}
-	},
-	{
-		.ident = "DELL PRO 14 PLUS PB14255 (KRK 2-in-1)",
-		.driver_data = &quirk_vr_ovp,
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D68"),
 		}
 	},
 	{
@@ -368,22 +304,6 @@ static const struct dmi_system_id fwbug_list[] = {
 		}
 	},
 	{
-		.ident = "DELL PRO 16 PLUS PB16255 (KRK)",
-		.driver_data = &quirk_vr_ovp,
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D4F"),
-		}
-	},
-	{
-		.ident = "DELL PRO 16 PLUS PB16255 CS (Strix)",
-		.driver_data = &quirk_vr_ovp,
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D65"),
-		}
-	},
-	{
 		.ident = "DELL PRO 14 PC14255 (HPT1)",
 		.driver_data = &quirk_vr_ovp,
 		.matches = {
@@ -400,14 +320,6 @@ static const struct dmi_system_id fwbug_list[] = {
 		}
 	},
 	{
-		.ident = "DELL PRO 14 PC14255 (KRK)",
-		.driver_data = &quirk_vr_ovp,
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D52"),
-		}
-	},
-	{
 		.ident = "DELL PRO 16 PC16255 (HPT1)",
 		.driver_data = &quirk_vr_ovp,
 		.matches = {
@@ -421,14 +333,6 @@ static const struct dmi_system_id fwbug_list[] = {
 		.matches = {
 			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
 			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D54"),
-		}
-	},
-	{
-		.ident = "DELL PRO 16 PC16255 (KRK)",
-		.driver_data = &quirk_vr_ovp,
-		.matches = {
-			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D55"),
 		}
 	},
 
