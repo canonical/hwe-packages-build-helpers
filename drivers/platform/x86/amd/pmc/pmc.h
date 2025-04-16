@@ -49,7 +49,6 @@ struct amd_pmc_dev {
 	struct dentry *dbgfs_dir;
 	struct quirk_entry *quirks;
 	bool disable_8042_wakeup;
-	bool ovp_delay;
 	struct amd_mp2_dev *mp2;
 };
 
