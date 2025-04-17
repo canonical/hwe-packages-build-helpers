@@ -47,7 +47,6 @@ struct bnxt_ulp {
 	u16		max_async_event_id;
 	u16		msix_requested;
 	u16		msix_base;
-	atomic_t	ref_count;
 };
 
 struct bnxt_en_dev {
