@@ -902,7 +902,7 @@ static void vmd_configure_membar(struct vmd_dev *vmd,
 	struct resource *res_parent;
 	u32 upper_bits;
 	unsigned long flags;
-	char name[16];
+	const char *name;
 
 	struct resource *res = &vmd->dev->resource[membar_number];
 
@@ -911,8 +911,24 @@ static void vmd_configure_membar(struct vmd_dev *vmd,
 	if (!upper_bits)
 		flags &= ~IORESOURCE_MEM_64;
 
-	snprintf(name, sizeof(name), "VMD MEMBAR%d %s", membar_number / 2,
-		 resource_number > VMD_RES_MBAR_2 ? "PCH" : "");
+	// Use static strings instead of dynamic formatting
+	switch (resource_number) {
+	case VMD_RES_MBAR_1:
+		name = "VMD MEMBAR1";
+		break;
+	case VMD_RES_MBAR_2:
+		name = "VMD MEMBAR2";
+		break;
+	case VMD_RES_PCH_MBAR_1:
+		name = "VMD MEMBAR1 PCH";
+		break;
+	case VMD_RES_PCH_MBAR_2:
+		name = "VMD MEMBAR2 PCH";
+		break;
+	default:
+		name = "VMD MEMBAR";
+		break;
+	}
 
 	res_parent = parent;
 	if (!res_parent)
