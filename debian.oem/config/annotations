@@ -7,6 +7,7 @@ include "../../debian.master/config/annotations"
 
 # ---- Annotations without notes ----
 
+CONFIG_AMD_ISP4                                 policy<{'amd64': 'm'}>
 CONFIG_ARCH_SUPPORTS_HUGE_PFNMAP                policy<{'amd64': 'y'}>
 CONFIG_ARCH_SUPPORTS_PMD_PFNMAP                 policy<{'amd64': 'y'}>
 CONFIG_ARCH_SUPPORTS_PUD_PFNMAP                 policy<{'amd64': 'y'}>
@@ -22,8 +23,10 @@ CONFIG_DELL_UART_BACKLIGHT                      policy<{'amd64': 'm'}>
 CONFIG_DRM_XE_DP_TUNNEL                         policy<{'amd64': 'y'}>
 CONFIG_GCC_ASM_GOTO_OUTPUT_BROKEN               policy<{'amd64': '-'}>
 CONFIG_GCC_VERSION                              policy<{'amd64': '130300'}>
+CONFIG_I2C_DESIGNWARE_AMDISP                    policy<{'amd64': 'm'}>
 CONFIG_LD_VERSION                               policy<{'amd64': '24200'}>
 CONFIG_PAHOLE_VERSION                           policy<{'amd64': '125'}>
+CONFIG_PINCTRL_AMDISP                           policy<{'amd64': 'm'}>
 CONFIG_RTW89_8852BT                             policy<{'amd64': 'm'}>
 CONFIG_RTW89_8852BTE                            policy<{'amd64': 'm'}>
 CONFIG_RUST                                     policy<{'amd64': '-'}>
@@ -42,3 +45,4 @@ CONFIG_SND_SOC_AMD_SDW_MACH_COMMON              policy<{'amd64': 'm'}>
 CONFIG_SND_SOC_AMD_SOF_SDW_MACH                 policy<{'amd64': 'm'}>
 CONFIG_SND_SOC_SDW_UTILS                        policy<{'amd64': 'm'}>
 CONFIG_SND_SOC_SOF_AMD_ACP70                    policy<{'amd64': 'm'}>
+CONFIG_VIDEO_OV05C                              policy<{'amd64': 'm'}>
