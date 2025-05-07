@@ -342,9 +342,6 @@ error_free:
  *
  * Allocates and pins a BO for kernel internal use.
  *
- * This function is exported to allow the V4L2 isp device
- * external to drm device to create and access the kernel BO.
- *
  * Note: For bo_ptr new BO is only created if bo_ptr points to NULL.
  *
  * Returns:
@@ -368,7 +365,6 @@ int amdgpu_bo_create_kernel(struct amdgpu_device *adev,
 
 	return 0;
 }
-EXPORT_SYMBOL(amdgpu_bo_create_kernel);
 
 /**
  * amdgpu_bo_create_kernel_at - create BO for kernel use at specific location
@@ -445,9 +441,6 @@ error:
  * @cpu_addr: pointer to where the BO's CPU memory space address was stored
  *
  * unmaps and unpin a BO for kernel internal use.
- *
- * This function is exported to allow the V4L2 isp device
- * external to drm device to free the kernel BO.
  */
 void amdgpu_bo_free_kernel(struct amdgpu_bo **bo, u64 *gpu_addr,
 			   void **cpu_addr)
@@ -472,7 +465,6 @@ void amdgpu_bo_free_kernel(struct amdgpu_bo **bo, u64 *gpu_addr,
 	if (cpu_addr)
 		*cpu_addr = NULL;
 }
-EXPORT_SYMBOL(amdgpu_bo_free_kernel);
 
 /* Validate bo size is bit bigger than the request domain */
 static bool amdgpu_bo_validate_size(struct amdgpu_device *adev,
