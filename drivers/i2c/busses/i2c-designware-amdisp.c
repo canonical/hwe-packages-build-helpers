@@ -87,6 +87,7 @@ static int dw_i2c_plat_probe(struct platform_device *pdev)
 	struct i2c_adapter *adap;
 	struct amd_isp_i2c_dev *isp_i2c_dev;
 	struct dw_i2c_dev *dev;
+	struct i2c_timings *t;
 	int ret;
 
 	isp_i2c_dev = devm_kzalloc(&pdev->dev, sizeof(struct amd_isp_i2c_dev),
@@ -115,7 +116,16 @@ static int dw_i2c_plat_probe(struct platform_device *pdev)
 	}
 
 	dev->get_clk_rate_khz = amd_isp_dw_i2c_get_clk_rate;
-	ret = i2c_dw_fw_parse_and_configure(dev);
+
+	t = &dev->timings;
+	i2c_parse_fw_timings(dev->dev, t, false);
+
+	i2c_dw_adjust_bus_speed(dev);
+
+	if (has_acpi_companion(dev->dev))
+		i2c_dw_acpi_configure(dev->dev);
+
+	ret = i2c_dw_validate_speed(dev);
 	if (ret)
 		goto exit;
 
@@ -178,7 +188,7 @@ static void dw_i2c_plat_remove(struct platform_device *pdev)
 
 	i2c_del_adapter(&dev->adapter);
 
-	i2c_dw_disable(dev);
+	dev->disable(dev);
 
 	pm_runtime_dont_use_autosuspend(&pdev->dev);
 	pm_runtime_put_sync(&pdev->dev);
@@ -205,7 +215,7 @@ static int dw_i2c_plat_runtime_suspend(struct device *dev)
 	if (i_dev->shared_with_punit)
 		return 0;
 
-	i2c_dw_disable(i_dev);
+	i_dev->disable(i_dev);
 	i2c_dw_prepare_clk(i_dev, false);
 
 	return 0;

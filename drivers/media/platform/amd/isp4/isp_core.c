@@ -2026,7 +2026,7 @@ module_init(amd_capture_init);
 module_exit(amd_capture_exit);
 
 MODULE_ALIAS("platform:" ISP_DRV_NAME);
-MODULE_IMPORT_NS("DMA_BUF");
+MODULE_IMPORT_NS(DMA_BUF);
 
 MODULE_AUTHOR("bin du <bin.du@amd.com>");
 MODULE_DESCRIPTION("AMD ISP4 Driver");
