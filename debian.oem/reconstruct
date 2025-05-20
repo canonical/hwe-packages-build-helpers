@@ -30,6 +30,8 @@ chmod +x 'debian/templates/image.preinst.in'
 chmod +x 'debian/templates/image.prerm.in'
 chmod +x 'debian/tests/rebuild'
 chmod +x 'debian/tests/ubuntu-regression-suite'
+chmod +x 'drivers/i2c/busses/i2c-designware-amdisp.h'
 chmod +x 'tools/testing/selftests/gpio/gpio-aggregator.sh'
 # Remove any files deleted from the orig.
+rm -f 'arch/um/kernel/maccess.c'
 exit 0
