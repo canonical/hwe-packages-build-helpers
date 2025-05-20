@@ -3924,6 +3924,14 @@ static int idpf_vport_splitq_napi_poll(struct napi_struct *napi, int budget)
 	if (!clean_complete)
 		return budget;
 
+	/* Switch to poll mode in the tear-down path after sending disable
+	 * queues virtchnl message, as the interrupts will be disabled after
+	 * that
+	 */
+	if (unlikely(q_vector->num_txq && test_bit(__IDPF_Q_POLL_MODE,
+						   q_vector->tx[0]->flags)))
+		return budget;
+
 	work_done = min_t(int, work_done, budget - 1);
 
 	/* Exit the polling mode, but don't re-enable interrupts if stack might
@@ -3932,15 +3940,7 @@ static int idpf_vport_splitq_napi_poll(struct napi_struct *napi, int budget)
 	if (likely(napi_complete_done(napi, work_done)))
 		idpf_vport_intr_update_itr_ena_irq(q_vector);
 
-	/* Switch to poll mode in the tear-down path after sending disable
-	 * queues virtchnl message, as the interrupts will be disabled after
-	 * that
-	 */
-	if (unlikely(q_vector->num_txq && test_bit(__IDPF_Q_POLL_MODE,
-						   q_vector->tx[0]->flags)))
-		return budget;
-	else
-		return work_done;
+	return work_done;
 }
 
 /**
