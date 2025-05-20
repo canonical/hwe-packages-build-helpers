@@ -4512,6 +4512,9 @@ static int identity_domain_attach_dev(struct iommu_domain *domain, struct device
 	if (!ret)
 		info->domain_attached = true;
 
+	if (!ret)
+		info->domain_attached = true;
+
 	return ret;
 }
 
