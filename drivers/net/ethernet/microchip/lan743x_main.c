@@ -1405,10 +1405,6 @@ static void lan743x_phy_update_flowcontrol(struct lan743x_adapter *adapter,
 					  cap & FLOW_CTRL_RX);
 }
 
-static int lan743x_phy_init(struct lan743x_adapter *adapter)
-{
-	return lan743x_hw_reset_phy(adapter);
-}
 
 static void lan743x_phy_link_status_change(struct net_device *netdev)
 {
@@ -3347,10 +3343,6 @@ static int lan743x_hardware_init(struct lan743x_adapter *adapter,
 	if (ret)
 		return ret;
 
-	ret = lan743x_phy_init(adapter);
-	if (ret)
-		return ret;
-
 	ret = lan743x_ptp_init(adapter);
 	if (ret)
 		return ret;
@@ -3481,6 +3473,10 @@ static int lan743x_pcidev_probe(struct pci_dev *pdev,
 		goto return_error;
 
 	ret = lan743x_csr_init(adapter);
+	if (ret)
+		goto cleanup_pci;
+
+	ret = lan743x_hw_reset_phy(adapter);
 	if (ret)
 		goto cleanup_pci;
 
