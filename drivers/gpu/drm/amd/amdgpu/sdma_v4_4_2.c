@@ -1610,37 +1610,17 @@ static int sdma_v4_4_2_soft_reset(struct amdgpu_ip_block *ip_block)
 static int sdma_v4_4_2_reset_queue(struct amdgpu_ring *ring, unsigned int vmid)
 {
 	struct amdgpu_device *adev = ring->adev;
-	int i, r;
-	u32 inst_mask;
+	u32 id = ring->me;
+	int r;
 
-	if (amdgpu_sriov_vf(adev))
-		return -EINVAL;
+	if (!(adev->sdma.supported_reset & AMDGPU_RESET_TYPE_PER_QUEUE))
+		return -EOPNOTSUPP;
 
-	/* stop queue */
-	inst_mask = 1 << ring->me;
-	sdma_v4_4_2_inst_gfx_stop(adev, inst_mask);
-	if (adev->sdma.has_page_queue)
-		sdma_v4_4_2_inst_page_stop(adev, inst_mask);
+	amdgpu_amdkfd_suspend(adev, true);
+	r = amdgpu_sdma_reset_engine(adev, id);
+	amdgpu_amdkfd_resume(adev, true);
 
-	r = amdgpu_dpm_reset_sdma(adev, 1 << GET_INST(SDMA0, ring->me));
-	if (r)
-		return r;
-
-	udelay(50);
-
-	for (i = 0; i < adev->usec_timeout; i++) {
-		if (!REG_GET_FIELD(RREG32_SDMA(ring->me, regSDMA_F32_CNTL), SDMA_F32_CNTL, HALT))
-			break;
-		udelay(1);
-	}
-
-	if (i == adev->usec_timeout) {
-		dev_err(adev->dev, "timed out waiting for SDMA%d unhalt after reset\n",
-			ring->me);
-		return -ETIMEDOUT;
-	}
-
-	return sdma_v4_4_2_inst_start(adev, inst_mask, true);
+	return r;
 }
 
 static int sdma_v4_4_2_set_trap_irq_state(struct amdgpu_device *adev,
