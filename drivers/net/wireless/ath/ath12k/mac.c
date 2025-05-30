@@ -7535,6 +7535,7 @@ static int __ath12k_mac_register(struct ath12k *ar)
 
 	wiphy->mbssid_max_interfaces = TARGET_NUM_VDEVS;
 	wiphy->ema_max_profile_periodicity = TARGET_EMA_MAX_PROFILE_PERIOD;
+	ieee80211_hw_set(hw, SUPPORTS_MULTI_BSSID);
 
 	if (ar->supports_6ghz) {
 		wiphy_ext_feature_set(wiphy,
