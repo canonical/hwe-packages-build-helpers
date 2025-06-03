@@ -26,6 +26,14 @@ void emac_update_hardware_stats(struct prueth_emac *emac)
 	int i;
 
 	for (i = 0; i < ARRAY_SIZE(icssg_all_stats); i++) {
+		/* In MII mode TX lines are swapped inside ICSSG, so read Tx stats
+		 * from slice1 for port0 and slice0 for port1 to get accurate Tx
+		 * stats for a given port
+		 */
+		if (emac->phy_if == PHY_INTERFACE_MODE_MII &&
+		    icssg_all_stats[i].offset >= ICSSG_TX_PACKET_OFFSET &&
+		    icssg_all_stats[i].offset <= ICSSG_TX_BYTE_OFFSET)
+			base = stats_base[slice ^ 1];
 		regmap_read(prueth->miig_rt,
 			    base + icssg_all_stats[i].offset,
 			    &val);
