@@ -3148,6 +3148,7 @@ cfg80211_inform_single_bss_frame_data(struct wiphy *wiphy,
 	u16 capability, beacon_int;
 	size_t ielen, min_hdr_len;
 	int bss_type;
+	size_t s1g_optional_len;
 
 	BUILD_BUG_ON(offsetof(struct ieee80211_mgmt, u.probe_resp.variable) !=
 			offsetof(struct ieee80211_mgmt, u.beacon.variable));
@@ -3166,12 +3167,11 @@ cfg80211_inform_single_bss_frame_data(struct wiphy *wiphy,
 
 	if (ieee80211_is_s1g_beacon(mgmt->frame_control)) {
 		ext = (void *) mgmt;
-		if (ieee80211_is_s1g_short_beacon(mgmt->frame_control))
-			min_hdr_len = offsetof(struct ieee80211_ext,
-					       u.s1g_short_beacon.variable);
-		else
-			min_hdr_len = offsetof(struct ieee80211_mgmt,
-					       u.probe_resp.variable);
+		s1g_optional_len =
+			ieee80211_s1g_optional_len(ext->frame_control);
+		min_hdr_len =
+			offsetof(struct ieee80211_ext, u.s1g_beacon.variable) +
+			s1g_optional_len;
 	} else {
 		/* same for beacons */
 		min_hdr_len = offsetof(struct ieee80211_mgmt,
@@ -3184,10 +3184,7 @@ cfg80211_inform_single_bss_frame_data(struct wiphy *wiphy,
 	ielen = len - min_hdr_len;
 	variable = mgmt->u.probe_resp.variable;
 	if (ext) {
-		if (ieee80211_is_s1g_short_beacon(mgmt->frame_control))
-			variable = ext->u.s1g_short_beacon.variable;
-		else
-			variable = ext->u.s1g_beacon.variable;
+		variable = ext->u.s1g_beacon.variable + s1g_optional_len;
 	}
 
 	channel = cfg80211_get_bss_channel(wiphy, variable, ielen, data->chan);
