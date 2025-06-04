@@ -18,6 +18,7 @@ CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT           policy<{'amd64': '-'}>
 CONFIG_CC_VERSION_TEXT                          policy<{'amd64': '"x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0"'}>
 CONFIG_DELL_UART_BACKLIGHT                      policy<{'amd64': 'm'}>
 CONFIG_DRM_PANIC_SCREEN_QR_CODE                 policy<{'amd64': '-'}>
+CONFIG_DRM_XE_DP_TUNNEL                         policy<{'amd64': 'y'}>
 CONFIG_GCC_VERSION                              policy<{'amd64': '130300'}>
 CONFIG_I2C_DESIGNWARE_AMDISP                    policy<{'amd64': 'm'}>
 CONFIG_LD_VERSION                               policy<{'amd64': '24200'}>
