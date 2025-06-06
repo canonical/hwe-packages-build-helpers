@@ -15,6 +15,7 @@
 #include <linux/platform_device.h>
 #include <linux/power_supply.h>
 #include <asm/amd_node.h>
+#include <linux/dmi.h>
 #include "pmf.h"
 
 /* PMF-SMU communication registers */
@@ -397,6 +398,155 @@ static void amd_pmf_deinit_features(struct amd_pmf_dev *dev)
 	}
 }
 
+static const struct dmi_system_id platform_prefers_bios_list[] = {
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D47"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D48"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D5F"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D60"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D4D"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D4E"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D61"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D5C"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D5D"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D65"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D49"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D5E"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D4F"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D50"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D51"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D53"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D54"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D52"),
+		},
+	},
+	{
+		.ident = "Dell",
+		.matches = {
+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
+			DMI_MATCH(DMI_PRODUCT_SKU, "0D55"),
+		},
+	},
+	{}
+};
+
+static bool amd_pmf_prefer_bios(void)
+{
+	const struct dmi_system_id *dmi_id;
+
+	dmi_id = dmi_first_match(platform_prefers_bios_list);
+
+	if (dmi_id)
+		return true;
+
+	return false;
+}
+
 static const struct acpi_device_id amd_pmf_acpi_ids[] = {
 	{"AMDI0100", 0x100},
 	{"AMDI0102", 0},
@@ -421,6 +571,12 @@ static int amd_pmf_probe(struct platform_device *pdev)
 	id = acpi_match_device(amd_pmf_acpi_ids, &pdev->dev);
 	if (!id)
 		return -ENODEV;
+
+	if (amd_pmf_prefer_bios() && !force_load) {
+		dev_warn(&pdev->dev, "Platform prefers BIOS over PMF module. "
+				     "Finish PMF driver probe early.\n");
+		return -ENODEV;
+	}
 
 	if (id->driver_data == 0x100 && !force_load)
 		return -ENODEV;
