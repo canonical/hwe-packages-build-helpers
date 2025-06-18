@@ -177,7 +177,8 @@ lpfc_dev_loss_tmo_callbk(struct fc_rport *rport)
 
 	/* Don't schedule a worker thread event if the vport is going down. */
 	if ((vport->load_flag & FC_UNLOADING) ||
-	    !(phba->hba_flag & HBA_SETUP)) {
+	    (phba->sli_rev == LPFC_SLI_REV4 &&
+	    !(phba->hba_flag & HBA_SETUP))) {
 
 		spin_lock_irqsave(&ndlp->lock, iflags);
 		ndlp->rport = NULL;
