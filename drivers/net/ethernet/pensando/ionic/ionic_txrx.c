@@ -704,7 +704,7 @@ static dma_addr_t ionic_tx_map_single(struct ionic_queue *q,
 		net_warn_ratelimited("%s: DMA single map failed on %s!\n",
 				     q->lif->netdev->name, q->name);
 		stats->dma_map_err++;
-		return 0;
+		return DMA_MAPPING_ERROR;
 	}
 	return dma_addr;
 }
@@ -722,6 +722,7 @@ static dma_addr_t ionic_tx_map_frag(struct ionic_queue *q,
 		net_warn_ratelimited("%s: DMA frag map failed on %s!\n",
 				     q->lif->netdev->name, q->name);
 		stats->dma_map_err++;
+		return DMA_MAPPING_ERROR;
 	}
 	return dma_addr;
 }
