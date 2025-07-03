@@ -837,7 +837,7 @@ static int board_type_ioctl(gpib_file_private_t *file_priv, gpib_board_t *board,
 
 	retval = copy_from_user(&cmd, (void __user *)arg, sizeof(board_type_ioctl_t));
 	if (retval)
-		return retval;
+		return -EFAULT;
 
 	for (list_ptr = registered_drivers.next; list_ptr != &registered_drivers;
 	     list_ptr = list_ptr->next) {
