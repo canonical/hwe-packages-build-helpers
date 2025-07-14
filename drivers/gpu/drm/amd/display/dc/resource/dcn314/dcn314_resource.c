@@ -926,6 +926,7 @@ static const struct dc_debug_options debug_defaults_drv = {
 
 	.seamless_boot_odm_combine = true,
 	.using_dml2 = false,
+	.disable_dsc_power_gate = true,
 };
 
 static const struct dc_debug_options debug_defaults_diags = {
