@@ -1521,4 +1521,7 @@ void dpp1_construct(struct dcn10_dpp *dpp1,
 	const struct dcn_dpp_registers *tf_regs,
 	const struct dcn_dpp_shift *tf_shift,
 	const struct dcn_dpp_mask *tf_mask);
+
+void dpp_force_disable_cursor(struct dpp *dpp_base);
+
 #endif

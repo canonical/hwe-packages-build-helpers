@@ -294,6 +294,9 @@ struct dpp_funcs {
 	void (*dpp_cnv_set_alpha_keyer)(
 			struct dpp *dpp_base,
 			struct cnv_color_keyer_params *color_keyer);
+
+	void (*dpp_force_disable_cursor)(struct dpp *dpp_base);
+
 };
 
 
