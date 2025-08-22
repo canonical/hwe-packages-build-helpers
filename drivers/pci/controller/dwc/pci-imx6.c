@@ -1140,8 +1140,6 @@ static int imx6_add_pcie_ep(struct imx6_pcie *imx6_pcie,
 		dev_err(dev, "failed to initialize endpoint\n");
 		return ret;
 	}
-	/* Start LTSSM. */
-	imx6_pcie_ltssm_enable(dev);
 
 	return 0;
 }
