@@ -3784,7 +3784,6 @@ CONFIG_CRYPTO_PCRYPT                            policy<{'amd64': 'm', 'arm64': '
 CONFIG_CRYPTO_POLY1305                          policy<{'amd64': 'm', 'arm64': 'm', 'armhf': 'm', 'ppc64el': 'm', 'riscv64': 'm', 's390x': 'm'}>
 CONFIG_CRYPTO_POLY1305_ARM                      policy<{'armhf': 'm'}>
 CONFIG_CRYPTO_POLY1305_NEON                     policy<{'arm64': 'm'}>
-CONFIG_CRYPTO_POLY1305_P10                      policy<{'ppc64el': 'm'}>
 CONFIG_CRYPTO_POLY1305_X86_64                   policy<{'amd64': 'm'}>
 CONFIG_CRYPTO_POLYVAL                           policy<{'amd64': 'm', 'arm64': 'm', 'armhf': 'm', 'ppc64el': 'm', 'riscv64': 'm'}>
 CONFIG_CRYPTO_POLYVAL_ARM64_CE                  policy<{'arm64': 'm'}>
