@@ -7310,6 +7310,11 @@ static int __bnxt_reserve_rings(struct bnxt *bp)
 		rx = rx_rings << 1;
 	tx_cp = bnxt_num_tx_to_cp(bp, tx);
 	cp = sh ? max_t(int, tx_cp, rx_rings) : tx_cp + rx_rings;
+	if (tx != bp->tx_nr_rings) {
+		netdev_warn(bp->dev,
+			    "Able to reserve only %d out of %d requested TX rings\n",
+			    tx, bp->tx_nr_rings);
+	}
 	bp->tx_nr_rings = tx;
 
 	/* If we cannot reserve all the RX rings, reset the RSS map only
@@ -11498,6 +11503,13 @@ static int __bnxt_open_nic(struct bnxt *bp, bool irq_re_init, bool link_re_init)
 		bp->flags &= ~BNXT_FLAG_RFS;
 	}
 
+	/* Make adjustments if reserved TX rings are less than requested */
+	bp->tx_nr_rings -= bp->tx_nr_rings_xdp;
+	bp->tx_nr_rings_per_tc = bnxt_tx_nr_rings_per_tc(bp);
+	if (bp->tx_nr_rings_xdp) {
+		bp->tx_nr_rings_xdp = bp->tx_nr_rings_per_tc;
+		bp->tx_nr_rings += bp->tx_nr_rings_xdp;
+	}
 	rc = bnxt_alloc_mem(bp, irq_re_init);
 	if (rc) {
 		netdev_err(bp->dev, "bnxt_alloc_mem err: %x\n", rc);
