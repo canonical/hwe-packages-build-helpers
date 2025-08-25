@@ -58,6 +58,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
 	IPU_SENSOR_CONFIG("INT0310", 0),
 	/* Omnivision OV5693 */
 	IPU_SENSOR_CONFIG("INT33BE", 1, 419200000),
+	/* Samsung S5K3J1 */
+	IPU_SENSOR_CONFIG("INT346D", 1, 848000000),
 	/* Omnivision OV2740 */
 	IPU_SENSOR_CONFIG("INT3474", 1, 180000000),
 	/* Omnivision OV8865 */
