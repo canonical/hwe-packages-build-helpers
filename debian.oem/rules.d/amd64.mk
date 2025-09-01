@@ -20,7 +20,5 @@ do_tools_acpidbg = true
 do_lib_rust     = true
 
 # OEM
-do_extras_package      = false
 do_lib_rust            = false
-do_source_package      = false
 do_tools_hyperv        = false
