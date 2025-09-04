@@ -8368,6 +8368,7 @@ CONFIG_MITIGATION_SRBDS                         policy<{'amd64': 'y'}>
 CONFIG_MITIGATION_SRSO                          policy<{'amd64': 'y'}>
 CONFIG_MITIGATION_SSB                           policy<{'amd64': 'y'}>
 CONFIG_MITIGATION_TAA                           policy<{'amd64': 'y'}>
+CONFIG_MITIGATION_TSA                           policy<{'amd64': 'y'}>
 CONFIG_MITIGATION_UNRET_ENTRY                   policy<{'amd64': 'y'}>
 CONFIG_MK8                                      policy<{'amd64': 'n'}>
 CONFIG_MKISS                                    policy<{'amd64': 'm', 'arm64': 'm', 'armhf': 'm', 'ppc64el': 'm', 'riscv64': 'm'}>
