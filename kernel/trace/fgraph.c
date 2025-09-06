@@ -685,7 +685,8 @@ int register_ftrace_graph(struct fgraph_ops *gops)
 
 error:
 	if (ret)
-		unregister_pm_notifier(&ftrace_suspend_notifier);
+		if (!ftrace_graph_active)
+			unregister_pm_notifier(&ftrace_suspend_notifier);
 
 	return ret;
 }
