@@ -54,10 +54,39 @@ static bool __nft_set_do_lookup(const struct net *net, const struct nft_set *set
 	return set->ops->lookup(net, set, key, ext);
 }
 
+static unsigned int nft_base_seq(const struct net *net)
+{
+	/* pairs with smp_store_release() in nf_tables_commit() */
+	return smp_load_acquire(&net->nft.base_seq);
+}
+
+static bool nft_lookup_should_retry(const struct net *net, unsigned int seq)
+{
+	return unlikely(seq != nft_base_seq(net));
+}
+
 bool nft_set_do_lookup(const struct net *net, const struct nft_set *set,
 		  const u32 *key, const struct nft_set_ext **ext)
 {
-	return __nft_set_do_lookup(net, set, key, ext);
+	bool ret;
+	unsigned int base_seq;
+
+	do {
+		base_seq = nft_base_seq(net);
+
+		ret = __nft_set_do_lookup(net, set, key, ext);
+		if (ret)
+			break;
+		/* No match?  There is a small chance that lookup was
+		 * performed in the old generation, but nf_tables_commit()
+		 * already unlinked a (matching) element.
+		 *
+		 * We need to repeat the lookup to make sure that we didn't
+		 * miss a matching element in the new generation.
+		 */
+	} while (nft_lookup_should_retry(net, base_seq));
+
+	return ret;
 }
 EXPORT_SYMBOL_GPL(nft_set_do_lookup);
 
