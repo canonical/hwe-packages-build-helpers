@@ -105,16 +105,10 @@ bool nft_hash_lookup_fast(const struct net *net,
 			  const u32 *key, const struct nft_set_ext **ext);
 bool nft_hash_lookup(const struct net *net, const struct nft_set *set,
 		     const u32 *key, const struct nft_set_ext **ext);
+#endif
+
 bool nft_set_do_lookup(const struct net *net, const struct nft_set *set,
 		       const u32 *key, const struct nft_set_ext **ext);
-#else
-static inline bool
-nft_set_do_lookup(const struct net *net, const struct nft_set *set,
-		  const u32 *key, const struct nft_set_ext **ext)
-{
-	return set->ops->lookup(net, set, key, ext);
-}
-#endif
 
 /* called from nft_pipapo_avx2.c */
 bool nft_pipapo_lookup(const struct net *net, const struct nft_set *set,

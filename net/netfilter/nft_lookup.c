@@ -24,10 +24,10 @@ struct nft_lookup {
 	struct nft_set_binding		binding;
 };
 
-#ifdef CONFIG_RETPOLINE
-bool nft_set_do_lookup(const struct net *net, const struct nft_set *set,
-		       const u32 *key, const struct nft_set_ext **ext)
+static bool __nft_set_do_lookup(const struct net *net, const struct nft_set *set,
+		    const u32 *key, const struct nft_set_ext **ext)
 {
+#ifdef CONFIG_MITIGATION_RETPOLINE
 	if (set->ops == &nft_set_hash_fast_type.ops)
 		return nft_hash_lookup_fast(net, set, key, ext);
 	if (set->ops == &nft_set_hash_type.ops)
@@ -50,10 +50,16 @@ bool nft_set_do_lookup(const struct net *net, const struct nft_set *set,
 		return nft_rbtree_lookup(net, set, key, ext);
 
 	WARN_ON_ONCE(1);
+#endif
 	return set->ops->lookup(net, set, key, ext);
 }
+
+bool nft_set_do_lookup(const struct net *net, const struct nft_set *set,
+		  const u32 *key, const struct nft_set_ext **ext)
+{
+	return __nft_set_do_lookup(net, set, key, ext);
+}
 EXPORT_SYMBOL_GPL(nft_set_do_lookup);
-#endif
 
 void nft_lookup_eval(const struct nft_expr *expr,
 		     struct nft_regs *regs,
