@@ -49,6 +49,9 @@
 /* Domain IDs (param2) */
 #define     PCODE_MBOX_DOMAIN_HBM		0x2
 
+#define   FAN_SPEED_CONTROL			0x7D
+#define     FSC_READ_NUM_FANS			0x4
+
 struct pcode_err_decode {
 	int errno;
 	const char *str;
