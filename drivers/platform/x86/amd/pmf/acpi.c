@@ -331,6 +331,46 @@ int apmf_get_sbios_requests(struct amd_pmf_dev *pdev, struct apmf_sbios_req *req
 									 req, sizeof(*req));
 }
 
+/* Store custom BIOS inputs data in ring buffer */
+static int amd_pmf_custom_bios_inputs_rb(struct amd_pmf_dev *pmf_dev)
+{
+	struct cbi_ring_buffer *rb = &pmf_dev->cbi_buf;
+	struct bios_input_entry entry = { };
+	int i;
+
+	guard(mutex)(&pmf_dev->rb_mutex);
+
+	switch (pmf_dev->cpu_id) {
+	case AMD_CPU_ID_PS:
+		for (i = 0; i < ARRAY_SIZE(custom_bios_inputs_v1); i++)
+			entry.val[i] = pmf_dev->req1.custom_policy[i];
+		entry.preq = pmf_dev->req1.pending_req;
+		break;
+	case PCI_DEVICE_ID_AMD_1AH_M20H_ROOT:
+	case PCI_DEVICE_ID_AMD_1AH_M60H_ROOT:
+		for (i = 0; i < ARRAY_SIZE(custom_bios_inputs); i++)
+			entry.val[i] = pmf_dev->req.custom_policy[i];
+		entry.preq = pmf_dev->req.pending_req;
+		break;
+	default:
+		dev_err(pmf_dev->dev, "CPU id not valid\n");
+		return -EINVAL;
+	}
+
+	if (CIRC_SPACE(rb->head, rb->tail, CUSTOM_BIOS_INPUT_RB_SIZE) > 0) {
+		rb->data[rb->head] = entry;
+		rb->head = (rb->head + 1) & (CUSTOM_BIOS_INPUT_RB_SIZE - 1);
+	} else {
+		/* Buffer full, overwrite oldest */
+		rb->data[rb->head] = entry;
+		rb->head = (rb->head + 1) & (CUSTOM_BIOS_INPUT_RB_SIZE - 1);
+		rb->tail = (rb->tail + 1) & (CUSTOM_BIOS_INPUT_RB_SIZE - 1);
+		dev_warn(pmf_dev->dev, "BIOS ring buffer overflow, overwriting oldest entry!\n");
+	}
+
+	return 0;
+}
+
 static void amd_pmf_handle_early_preq(struct amd_pmf_dev *pdev)
 {
 	if (!pdev->cb_flag)
@@ -356,6 +396,8 @@ static void apmf_event_handler_v2(acpi_handle handle, u32 event, void *data)
 	dev_dbg(pmf_dev->dev, "Pending request (preq): 0x%x\n", pmf_dev->req.pending_req);
 
 	amd_pmf_handle_early_preq(pmf_dev);
+
+	amd_pmf_custom_bios_inputs_rb(pmf_dev);
 }
 
 static void apmf_event_handler_v1(acpi_handle handle, u32 event, void *data)
@@ -374,6 +416,8 @@ static void apmf_event_handler_v1(acpi_handle handle, u32 event, void *data)
 	dev_dbg(pmf_dev->dev, "Pending request (preq1): 0x%x\n", pmf_dev->req1.pending_req);
 
 	amd_pmf_handle_early_preq(pmf_dev);
+
+	amd_pmf_custom_bios_inputs_rb(pmf_dev);
 }
 
 static void apmf_event_handler(acpi_handle handle, u32 event, void *data)
