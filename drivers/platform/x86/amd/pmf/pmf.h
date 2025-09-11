@@ -12,6 +12,7 @@
 #define PMF_H
 
 #include <linux/acpi.h>
+#include <linux/circ_buf.h>
 #include <linux/input.h>
 #include <linux/platform_device.h>
 #include <linux/platform_profile.h>
@@ -119,6 +120,7 @@ struct cookie_header {
 
 #define APTS_MAX_STATES		16
 #define CUSTOM_BIOS_INPUT_BITS	GENMASK(16, 7)
+#define CUSTOM_BIOS_INPUT_RB_SIZE	64	/* Must be power of two for CIRC_* macros */
 
 typedef void (*apmf_event_handler_t)(acpi_handle handle, u32 event, void *data);
 
@@ -358,6 +360,17 @@ struct pmf_bios_inputs_prev {
 	u32 custom_bios_inputs[10];
 };
 
+struct bios_input_entry {
+	u32 val[10];
+	u32 preq;
+};
+
+struct cbi_ring_buffer {
+	struct bios_input_entry data[CUSTOM_BIOS_INPUT_RB_SIZE];
+	u16 head;
+	u16 tail;
+};
+
 struct amd_pmf_dev {
 	void __iomem *regbase;
 	void __iomem *smu_virt_addr;
@@ -406,6 +419,8 @@ struct amd_pmf_dev {
 	struct apmf_sbios_req_v1 req1;
 	struct pmf_bios_inputs_prev cb_prev; /* To preserve custom BIOS inputs */
 	bool cb_flag;			     /* To handle first custom BIOS input */
+	struct cbi_ring_buffer cbi_buf;
+	struct mutex rb_mutex;		     /* Protects ring buffer access */
 };
 
 struct apmf_sps_prop_granular_v2 {
