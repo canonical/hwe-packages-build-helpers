@@ -318,6 +318,10 @@ struct xe_device {
 		u8 has_llc:1;
 		/** @info.has_mmio_ext: Device has extra MMIO address range */
 		u8 has_mmio_ext:1;
+		/** @info.has_mbx_power_limits: Device has support to manage power limits using
+		 * pcode mailbox commands.
+		 */
+		u8 has_mbx_power_limits:1;
 		/** @info.has_range_tlb_invalidation: Has range based TLB invalidations */
 		u8 has_range_tlb_invalidation:1;
 		/** @info.has_sriov: Supports SR-IOV */
