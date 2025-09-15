@@ -8873,7 +8873,7 @@ CONFIG_MTRR                                     policy<{'amd64': 'y'}>
 CONFIG_MTRR_SANITIZER                           policy<{'amd64': 'y'}>
 CONFIG_MTRR_SANITIZER_ENABLE_DEFAULT            policy<{'amd64': '1'}>
 CONFIG_MTRR_SANITIZER_SPARE_REG_NR_DEFAULT      policy<{'amd64': '1'}>
-CONFIG_MULTIPLEXER                              policy<{'amd64': 'm', 'arm64': 'm', 'armhf': 'm', 'ppc64el': 'm', 'riscv64': 'm'}>
+CONFIG_MULTIPLEXER                              policy<{'amd64': 'm', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'm', 'riscv64': 'm'}>
 CONFIG_MULTIUSER                                policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y', 's390x': 'y'}>
 CONFIG_MUSB_PIO_ONLY                            policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y'}>
 CONFIG_MUTEX_SPIN_ON_OWNER                      policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y', 's390x': 'y'}>
