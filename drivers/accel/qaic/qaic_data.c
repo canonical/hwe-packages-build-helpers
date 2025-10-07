@@ -165,7 +165,7 @@ static void free_slice(struct kref *kref)
 	drm_gem_object_put(&slice->bo->base);
 	sg_free_table(slice->sgt);
 	kfree(slice->sgt);
-	kfree(slice->reqs);
+	kvfree(slice->reqs);
 	kfree(slice);
 }
 
@@ -404,7 +404,7 @@ static int qaic_map_one_slice(struct qaic_device *qdev, struct qaic_bo *bo,
 		goto free_sgt;
 	}
 
-	slice->reqs = kcalloc(sgt->nents, sizeof(*slice->reqs), GFP_KERNEL);
+	slice->reqs = kvcalloc(sgt->nents, sizeof(*slice->reqs), GFP_KERNEL);
 	if (!slice->reqs) {
 		ret = -ENOMEM;
 		goto free_slice;
@@ -430,7 +430,7 @@ static int qaic_map_one_slice(struct qaic_device *qdev, struct qaic_bo *bo,
 	return 0;
 
 free_req:
-	kfree(slice->reqs);
+	kvfree(slice->reqs);
 free_slice:
 	kfree(slice);
 free_sgt:
