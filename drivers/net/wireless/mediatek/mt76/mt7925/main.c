@@ -6,6 +6,7 @@
 #include <linux/pci.h>
 #include <linux/module.h>
 #include <linux/ctype.h>
+#include <linux/dmi.h>
 #include <net/ipv6.h>
 #include "mt7925.h"
 #include "mcu.h"
@@ -2207,6 +2208,11 @@ static void mt7925_rfkill_poll(struct ieee80211_hw *hw)
 {
 	struct mt792x_phy *phy = mt792x_hw_phy(hw);
 	int ret;
+
+	/* Quirk for HP Z2 Mini G1a Workstation - rfkill_poll causes undefined behavior */
+	if (dmi_match(DMI_SYS_VENDOR, "HP") &&
+	    dmi_match(DMI_PRODUCT_NAME, "HP Z2 Mini G1a Workstation Desktop PC"))
+		return;
 
 	mt792x_mutex_acquire(phy->dev);
 	ret = mt7925_mcu_wf_rf_pin_ctrl(phy);
