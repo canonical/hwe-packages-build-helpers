@@ -731,7 +731,7 @@ struct pmc_dev_info arl_pmc_dev = {
 	.init = arl_core_init,
 };
 
-static u32 ARL_H_PMT_DMU_GUIDS[] = {ARL_PMT_DMU_GUID, 0x0};
+static u32 ARL_H_PMT_DMU_GUIDS[] = {ARL_PMT_DMU_GUID, ARL_H_PMT_DMU_GUID, 0x0};
 struct pmc_dev_info arl_h_pmc_dev = {
 	.pci_func = 2,
 	.dmu_guids = ARL_H_PMT_DMU_GUIDS,
