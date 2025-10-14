@@ -265,9 +265,12 @@ static void ucsi_poll_worker(struct work_struct *work)
 	mutex_lock(&con->lock);
 
 	if (!con->partner || !con->wq) {
-		list_del(&uwork->node);
+		/*
+		 * Workqueue is being destroyed. Don't free the work item here;
+		 * ucsi_destroy_connector_wq() will handle cleanup to avoid
+		 * use-after-free race.
+		 */
 		mutex_unlock(&con->lock);
-		kfree(uwork);
 		return;
 	}
 
