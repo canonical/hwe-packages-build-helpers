@@ -13,6 +13,7 @@
 #include "intel_dp_tunnel.h"
 #include "intel_fdi.h"
 #include "intel_link_bw.h"
+#include "intel_vdsc.h"
 
 /**
  * intel_link_bw_init_limits - initialize BW limits
@@ -27,7 +28,7 @@ void intel_link_bw_init_limits(struct intel_atomic_state *state,
 	struct intel_display *display = to_intel_display(state);
 	enum pipe pipe;
 
-	limits->force_fec_pipes = 0;
+	limits->link_dsc_pipes = 0;
 	limits->bpp_limit_reached_pipes = 0;
 	for_each_pipe(display, pipe) {
 		const struct intel_crtc_state *crtc_state =
@@ -36,8 +37,8 @@ void intel_link_bw_init_limits(struct intel_atomic_state *state,
 
 		if (state->base.duplicated && crtc_state) {
 			limits->max_bpp_x16[pipe] = crtc_state->max_link_bpp_x16;
-			if (crtc_state->fec_enable)
-				limits->force_fec_pipes |= BIT(pipe);
+			if (intel_dsc_enabled_on_link(crtc_state))
+				limits->link_dsc_pipes |= BIT(pipe);
 		} else {
 			limits->max_bpp_x16[pipe] = INT_MAX;
 		}
@@ -184,10 +185,10 @@ assert_link_limit_change_valid(struct intel_display *display,
 	bool bpps_changed = false;
 	enum pipe pipe;
 
-	/* FEC can't be forced off after it was forced on. */
+	/* DSC can't be disabled after it was enabled. */
 	if (drm_WARN_ON(display->drm,
-			(old_limits->force_fec_pipes & new_limits->force_fec_pipes) !=
-			old_limits->force_fec_pipes))
+			(old_limits->link_dsc_pipes & new_limits->link_dsc_pipes) !=
+			old_limits->link_dsc_pipes))
 		return false;
 
 	for_each_pipe(display, pipe) {
@@ -205,8 +206,8 @@ assert_link_limit_change_valid(struct intel_display *display,
 	/* At least one limit must change. */
 	if (drm_WARN_ON(display->drm,
 			!bpps_changed &&
-			new_limits->force_fec_pipes ==
-			old_limits->force_fec_pipes))
+			new_limits->link_dsc_pipes ==
+			old_limits->link_dsc_pipes))
 		return false;
 
 	return true;
