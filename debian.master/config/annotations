@@ -367,7 +367,7 @@ CONFIG_ISM                                      policy<{'s390x': 'm'}>
 CONFIG_ISM                                      note<'LP: #1789934'>
 
 CONFIG_KERNEL_ZSTD                              policy<{'amd64': 'y', 'arm64': 'y', 'riscv64': 'n', 's390x': 'y'}>
-CONFIG_KERNEL_ZSTD                              note<'LP: #193172'>
+CONFIG_KERNEL_ZSTD                              note<'LP: #1931725'>
 
 CONFIG_KEXEC_BZIMAGE_VERIFY_SIG                 policy<{'amd64': 'y'}>
 CONFIG_KEXEC_BZIMAGE_VERIFY_SIG                 note<'Q: check this is in sync with the kexec/kdump userspace'>
