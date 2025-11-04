@@ -1,0 +1,34 @@
+name: Lint Codebase
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: read
+  statuses: write
+
+jobs:
+  lint:
+    name: Lint Codebase
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Load super-linter configuration
+        run: cat .github/linters/super-linter.env >> "$GITHUB_ENV"
+      - name: Lint Codebase
+        id: super-linter
+        uses: super-linter/super-linter/slim@v8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
