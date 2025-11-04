@@ -1,0 +1,33 @@
+---
+name: 'Test actions/prune-software'
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/prune-software.yml
+      - 'actions/prune-software/**'
+      - '!actions/prune-software/*.md'
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/prune-software.yml
+      - 'actions/prune-software/**'
+      - '!actions/prune-software/*.md'
+
+permissions:
+  contents: read
+
+jobs:
+  actions-prune-software:
+    name: Test actions/prune-software
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Prune software
+        uses: ./actions/prune-software

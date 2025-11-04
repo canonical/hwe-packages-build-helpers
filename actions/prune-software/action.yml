@@ -1,0 +1,128 @@
+name: 'Prune Software'
+description: 'Prune Software Action'
+branding:
+  icon: 'trash'
+  color: 'green'
+
+runs:
+  using: 'composite'
+  steps:
+    - shell: sh
+      run: df -h
+
+    - name: Prune software (APT)
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        echo "::group::Installed APT packages"
+        dpkg -l
+        echo "::endgroup::"
+
+        echo "::group::Remove APT packages"
+        sudo apt-mark minimize-manual --yes
+        packages=(
+          ant
+          ant-optional
+          apache2*
+          aspnetcore-*
+          azure-cli
+          clang-*
+          dotnet-*
+          google-chrome-stable
+          libmono-*
+          lld-*
+          lldb-*
+          libmono*
+          libnginx-*
+          llvm-*
+          microsoft-edge-stable
+          mongodb-*
+          mono-*
+          mysql-*
+          nginx
+          php*
+          podman
+          postgresql-*
+          r-*
+          ruby*
+          temurin-*
+          walinuxagent
+        )
+        sudo apt-get remove --purge -y ${packages[@]}
+        echo "::endgroup::"
+
+        echo "::group::Remaining APT packages"
+        dpkg -l
+        echo "::endgroup::"
+
+    - shell: sh
+      run: df -h
+
+    - name: Remove directories/files
+      shell: bash
+      run: |
+        echo "::group::Remove directories/files"
+        paths=(
+          /etc/skel/.cargo
+          /etc/skel/.composer
+          /etc/skel/.dotnet
+          /etc/skel/.nvm
+          /etc/skel/.rustup
+          /opt/actionarchivecache
+          /opt/az
+          /opt/hostedtoolcache
+          /opt/pipx
+          /opt/pipx_bin
+          /opt/runner
+          /opt/runner-cache
+          /usr/local/.ghcup
+          /usr/local/aws-cli
+          /usr/local/aws-sam-cli
+          /usr/local/bin/aliyun
+          /usr/local/bin/azcopy*
+          /usr/local/bin/bicep
+          /usr/local/bin/ccmake
+          /usr/local/bin/cmake
+          /usr/local/bin/cmake-gui
+          /usr/local/bin/cpack
+          /usr/local/bin/ctest
+          /usr/local/bin/helm
+          /usr/local/bin/kind
+          /usr/local/bin/kustomize
+          /usr/local/bin/minikube
+          /usr/local/bin/oc
+          /usr/local/bin/pulumi*
+          /usr/local/bin/terraform
+          /usr/local/julia*
+          /usr/local/lib/android
+          /usr/local/lib/node_modules
+          /usr/local/share/chromedriver-linux64
+          /usr/local/share/chromium
+          /usr/local/share/cmake-*
+          /usr/local/share/edge_driver
+          /usr/local/share/gecko_driver
+          /usr/local/share/powershell
+          /usr/local/share/vcpkg
+          /usr/local/sqlpackage
+          /usr/share/az_*
+          /usr/share/gradle-*
+          /usr/share/kotlinc
+          /usr/share/miniconda
+          /usr/share/sbt
+          /usr/share/swift
+        )
+        sudo rm -rf ${paths[@]}
+        echo "::endgroup::"
+
+    - shell: sh
+      run: df -h
+
+    - name: Prune docker images
+      shell: pwsh
+      run: |
+        echo "::group::docker image prune"
+        docker image prune --all --force
+        echo "::endgroup::"
+
+    - shell: sh
+      run: df -h
