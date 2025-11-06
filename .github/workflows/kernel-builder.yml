@@ -21,8 +21,8 @@ permissions:
   contents: read
 
 jobs:
-  actions-kernel-builder:
-    name: Test actions/kernel-builder
+  actions-kernel-builder-source:
+    name: Test actions/kernel-builder (source)
     runs-on: ubuntu-latest
     steps:
       - name: Inspect running series
@@ -71,3 +71,40 @@ jobs:
           ls "${OUT}"/linux_*.dsc
           ls "${OUT}"/linux_*_source.changes
           ls "${OUT}"/linux_*.tar.*
+
+  actions-kernel-builder-failure:
+    name: Test actions/kernel-builder (failure)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect running series
+        id: inspect
+        shell: bash
+        run: |
+          series="$(lsb_release -s -c)"
+          echo "series=${series}" | tee -a "${GITHUB_OUTPUT}"
+
+      - name: Checkout workflows
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Checkout kernel tree
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ format('linux/{0}/latest', steps.inspect.outputs.series) }}
+          path: 'linux'
+          fetch-depth: 1
+
+      - name: Build
+        id: build
+        uses: ./actions/kernel-builder
+        with:
+          ksrc: 'linux'
+          no_install_deps: 'true'
+        continue-on-error: true
+
+      - name: Expect failure
+        if: ${{ !cancelled() }}
+        env:
+          RESULT: ${{ steps.build.outcome }}
+        run: test "${RESULT}" = "failure"
