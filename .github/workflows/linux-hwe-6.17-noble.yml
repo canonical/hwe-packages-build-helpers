@@ -1,0 +1,21 @@
+---
+name: 'linux-hwe-6.17/noble'
+
+on:
+  pull_request:
+    branches:
+      - linux-hwe-6.17/noble/latest
+  push:
+    branches:
+      - linux-hwe-6.17/noble/latest
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: canonical/hwe-packages-build-helpers/.github/workflows/shared-kernel-builder.yml@v1
+    with:
+      repository: ${{ github.repository }}
+      ref: ${{ github.ref }}
+      retention-days: 7
