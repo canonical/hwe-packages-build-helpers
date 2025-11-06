@@ -1,4 +1,4 @@
-linux-oem-6.17 (6.17.0-1006.6) noble; urgency=medium
+linux-oem-6.17 (6.17.0-9006.6+exp.1) noble; urgency=medium
 
   * noble/linux-oem-6.17: 6.17.0-1006.6 -proposed tracker (LP: #2129985)
 
