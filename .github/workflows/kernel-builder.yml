@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - .github/workflows/kernel-builder.yml
+      - .github/workflows/shared-kernel-builder.yml
       - 'actions/kernel-builder/**'
       - '!actions/kernel-builder/*.md'
   push:
@@ -14,6 +15,7 @@ on:
       - main
     paths:
       - .github/workflows/kernel-builder.yml
+      - .github/workflows/shared-kernel-builder.yml
       - 'actions/kernel-builder/**'
       - '!actions/kernel-builder/*.md'
 
@@ -108,3 +110,11 @@ jobs:
         env:
           RESULT: ${{ steps.build.outcome }}
         run: test "${RESULT}" = "failure"
+
+  shared-kernel-builder:
+    name: Test .github/workflows/shared-kernel-builder.yml
+    uses: ./.github/workflows/shared-kernel-builder.yml
+    with:
+      repository: ${{ github.repository }}
+      ref: linux/noble/latest
+      retention_days: 7

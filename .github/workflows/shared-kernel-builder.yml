@@ -1,0 +1,98 @@
+---
+name: Kernel Build
+
+on:
+  workflow_call:
+    inputs:
+      repository:
+        description: >
+          Source repository to checkout. Passed to actions/checkout.
+        type: string
+        required: true
+      ref:
+        description: >
+          Source repository reference to checkout. Passed to actions/checkout.
+        type: string
+        required: true
+      artifacts_name:
+        description: >
+          Name of the artifact to upload. Passed to actions/upload-artifact.
+        type: string
+        default: 'artifacts'
+      retention_days:
+        description: >
+          Duration after which artifact will expire in days. Passed to
+          actions/upload-artifact.
+        type: number
+        default: 0
+    outputs:
+      out:
+        description: 'Actual artifacts output path used.'
+        value: ${{ jobs.build.outputs.out }}
+      artifact-id:
+        description: 'GitHub ID of an Artifact, can be used by the REST API.'
+        value: ${{ jobs.build.outputs.artifact_id }}
+      artifact-url:
+        description: 'URL to download an Artifact.'
+        value: ${{ jobs.build.outputs.artifact_url }}
+      artifact-digest:
+        description: 'SHA-256 digest of an Artifact.'
+        value: ${{ jobs.build.outputs.artifact_digest }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build kernel from ${{ inputs.repository }}@${{ inputs.ref }}
+    runs-on: ubuntu-latest
+    outputs:
+      out: ${{ steps.build.outputs.out }}
+      artifact_id: ${{ steps.artifacts.outputs.artifact-id }}
+      artifact_url: ${{ steps.artifacts.outputs.artifact-url }}
+      artifact_digest: ${{ steps.artifacts.outputs.artifact-digest }}
+    steps:
+      - name: Checkout workflows
+        uses: actions/checkout@v5
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.ref }}
+          fetch-depth: 1
+
+      # Without correct rustc version installed, Ubuntu kernel build fails due
+      # to config changes.
+      - name: Remove pre-installed rustc
+        shell: sh
+        run: rm -rf ~/.cargo
+
+      # Need more free spaces than currently available to build kernel
+      - name: Prune software
+        uses: canonical/hwe-packages-build-helpers/actions/prune-software@v1
+
+      - name: Build
+        id: build
+        uses: canonical/hwe-packages-build-helpers/actions/kernel-builder@v1
+
+      - name: Upload artifacts
+        if: ${{ !cancelled() }}
+        id: artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifacts_name }}
+          path: |
+            ${{ steps.build.outputs.out }}/build.log
+            ${{ steps.build.outputs.out }}/*.buildinfo
+            ${{ steps.build.outputs.out }}/*.changes
+            ${{ steps.build.outputs.out }}/*.deb
+            ${{ steps.build.outputs.out }}/*.dsc
+            ${{ steps.build.outputs.out }}/*.tar.*
+          retention-days: ${{ inputs.retention_days }}
+
+      - env:
+          RESULT: ${{ steps.build.outcome }}
+        shell: sh
+        run: test "${RESULT}" = "success"
