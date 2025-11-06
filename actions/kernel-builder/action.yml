@@ -1,0 +1,72 @@
+name: 'Kernel Builder'
+description: 'Ubuntu Kernel Builder Action'
+branding:
+  icon: 'target'
+  color: 'red'
+inputs:
+  ksrc:
+    description: 'The kernel source path.'
+    required: false
+    default: '.'
+  build_type:
+    description: 'dpkg-buildpackage --build=<build_type>.'
+    required: false
+    default: 'binary'
+  no_install_deps:
+    description: 'Skip installing Build-Deps.'
+    required: false
+    default: 'false'
+outputs:
+  out:
+    description: 'Actual artifacts output path used.'
+    value: ${{ steps.prepare.outputs.out }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Prepare
+      id: prepare
+      shell: sh
+      env:
+        KSRC: ${{ inputs.ksrc }}
+      run: |
+        out="$(realpath "${KSRC:-.}/..")"
+        echo "out=${out}" | tee -a "${GITHUB_OUTPUT}"
+
+    - name: Install Build-Deps
+      if: ${{ inputs.no_install_deps == 'false' }}
+      working-directory: ${{ inputs.ksrc }}
+      shell: sh
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        echo "::group::Install essential packages"
+        sudo apt-get update --quiet
+        sudo apt-get install --no-install-recommends --yes \
+            build-essential \
+            devscripts \
+            equivs \
+            fakeroot
+        echo "::endgroup::"
+
+        echo "::group::Install build dependencies"
+        debian/rules clean
+        sh -c "yes || true" 2>/dev/null | \
+            mk-build-deps --install --remove --root-cmd sudo debian/control
+        echo "::endgroup::"
+
+        git clean -d -f -x
+
+    - name: Build
+      id: build
+      working-directory: ${{ inputs.ksrc }}
+      shell: sh
+      env:
+        INPUT_BUILD_TYPE: ${{ inputs.build_type }}
+        OUT: ${{ steps.prepare.outputs.out }}
+      run: |
+        debian/rules clean
+        dpkg-buildpackage \
+            --build="${INPUT_BUILD_TYPE}" \
+            --no-sign \
+            2>&1 | tee "${OUT}/build.log"

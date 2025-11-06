@@ -1,0 +1,73 @@
+---
+name: 'Test actions/kernel-builder'
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/kernel-builder.yml
+      - 'actions/kernel-builder/**'
+      - '!actions/kernel-builder/*.md'
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/kernel-builder.yml
+      - 'actions/kernel-builder/**'
+      - '!actions/kernel-builder/*.md'
+
+permissions:
+  contents: read
+
+jobs:
+  actions-kernel-builder:
+    name: Test actions/kernel-builder
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect running series
+        id: inspect
+        shell: bash
+        run: |
+          series="$(lsb_release -s -c)"
+          echo "series=${series}" | tee -a "${GITHUB_OUTPUT}"
+
+      - name: Checkout workflows
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Checkout kernel tree
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ format('linux/{0}/latest', steps.inspect.outputs.series) }}
+          path: 'linux'
+          fetch-depth: 1
+
+      # Without correct rustc version installed, Ubuntu kernel build fails due
+      # to config changes.
+      - name: Remove pre-installed rustc
+        shell: bash
+        run: rm -rf ~/.cargo
+
+      - name: Build
+        id: build
+        uses: ./actions/kernel-builder
+        with:
+          ksrc: 'linux'
+          build_type: 'source'
+
+      - name: Check built files
+        env:
+          OUT: ${{ steps.build.outputs.out }}
+        run: |
+          set -ex
+
+          expected_out="$(realpath .)"
+          test "${OUT}" = "${expected_out}"
+
+          test -d "${OUT}"
+          test -e "${OUT}"/build.log
+          ls "${OUT}"/linux_*.dsc
+          ls "${OUT}"/linux_*_source.changes
+          ls "${OUT}"/linux_*.tar.*
