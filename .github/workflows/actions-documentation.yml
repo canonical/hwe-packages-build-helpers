@@ -1,0 +1,42 @@
+---
+name: 'Update Actions Docs'
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  locate-actions-with-params:
+    runs-on: ubuntu-latest
+    outputs:
+      actions: ${{ steps.jq.outputs.actions }}
+    steps:
+      - uses: actions/checkout@v5
+      - id: jq
+        run: |
+          # See https://github.com/koalaman/shellcheck/issues/3149
+          # shellcheck disable=SC2038
+          json="$(find actions -type f -name "README.md" -exec grep -l "^## Customizing$" {} + | \
+                  xargs -I {} dirname {} | \
+                  jq -R -s -M -c 'split("\n")[:-1]')"
+          echo "actions=${json}" | tee -a "${GITHUB_OUTPUT}"
+
+  actions-params:
+    runs-on: ubuntu-latest
+    needs:
+      - locate-actions-with-params
+    strategy:
+      matrix:
+        action:
+          ${{ fromJSON(needs.locate-actions-with-params.outputs.actions) }}
+    steps:
+      - uses: actions/checkout@v5
+      - run: .github/scripts/update-action-readme.sh ${{ matrix.action }}
+      - run: git diff; test -z "$(git status | grep modified)"

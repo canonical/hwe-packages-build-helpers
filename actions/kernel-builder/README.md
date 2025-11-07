@@ -21,20 +21,24 @@
 
 ## Customizing
 
+<!-- start customizing -->
+
 ### inputs
 
 The following inputs are available:
 
 | Name            | Required | Description                                                  |
-| :-------------- | :------: | :----------------------------------------------------------- |
-| ksrc            |  false   | The kernel source path. Default: '.'.                        |
-| build-type      |  false   | `dpkg-buildpackage --build=<build-type>`. Default: 'binary'. |
-| no-install-deps |  false   | Skip installing Build-Deps. Default: false.                  |
+| :-------------- | -------: | :----------------------------------------------------------- |
+| ksrc            |    false | The kernel source path. Default: '.'.                        |
+| build-type      |    false | `dpkg-buildpackage --build=<build-type>`. Default: 'binary'. |
+| no-install-deps |    false | Skip installing Build-Deps. Default: 'false'.                |
 
 ### outputs
 
 The following outputs are available:
 
-| Name | Type   | Description                        |
-| :--- | ------ | :--------------------------------- |
+| Name |   Type | Description                        |
+| :--- | -----: | :--------------------------------- |
 | out  | string | Actual artifacts output path used. |
+
+<!-- end customizing -->
