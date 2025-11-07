@@ -211,6 +211,7 @@ bootstrap: $(BPFTOOL_BOOTSTRAP)
 
 ifneq ($(VMLINUX_BTF)$(VMLINUX_H),)
 ifeq ($(feature-clang-bpf-co-re),1)
+ifeq ($(feature-llvm),1)
 
 BUILD_BPF_SKELS := 1
 
@@ -238,6 +239,7 @@ $(OUTPUT)prog.o: $(OUTPUT)profiler.skel.h
 
 $(OUTPUT)pids.o: $(OUTPUT)pid_iter.skel.h
 
+endif
 endif
 endif
 
