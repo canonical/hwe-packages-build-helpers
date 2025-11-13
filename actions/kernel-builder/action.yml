@@ -9,7 +9,7 @@ inputs:
     required: false
     default: '.'
   build-type:
-    description: 'dpkg-buildpackage --build=<build-type>.'
+    description: '`dpkg-buildpackage --build=<build-type>`.'
     required: false
     default: 'binary'
   no-install-deps:
