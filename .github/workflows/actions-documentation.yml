@@ -5,9 +5,19 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - README.md
+      - .github/workflows/actions-documentation.yml
+      - .github/workflows/shared-*.yml
+      - 'actions/**'
   push:
     branches:
       - main
+    paths:
+      - README.md
+      - .github/workflows/actions-documentation.yml
+      - .github/workflows/shared-*.yml
+      - 'actions/**'
 
 permissions:
   contents: read
