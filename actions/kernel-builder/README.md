@@ -28,8 +28,8 @@ The following inputs are available:
 | Name            | Required | Description                                                  |
 | :-------------- | :------: | :----------------------------------------------------------- |
 | ksrc            |  false   | The kernel source path. Default: '.'.                        |
-| build_type      |  false   | `dpkg-buildpackage --build=<build_type>`. Default: 'binary'. |
-| no_install_deps |  false   | Skip installing Build-Deps. Default: false.                  |
+| build-type      |  false   | `dpkg-buildpackage --build=<build-type>`. Default: 'binary'. |
+| no-install-deps |  false   | Skip installing Build-Deps. Default: false.                  |
 
 ### outputs
 
