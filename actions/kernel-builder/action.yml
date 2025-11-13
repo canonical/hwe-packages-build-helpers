@@ -8,11 +8,11 @@ inputs:
     description: 'The kernel source path.'
     required: false
     default: '.'
-  build_type:
-    description: 'dpkg-buildpackage --build=<build_type>.'
+  build-type:
+    description: 'dpkg-buildpackage --build=<build-type>.'
     required: false
     default: 'binary'
-  no_install_deps:
+  no-install-deps:
     description: 'Skip installing Build-Deps.'
     required: false
     default: 'false'
@@ -34,7 +34,7 @@ runs:
         echo "out=${out}" | tee -a "${GITHUB_OUTPUT}"
 
     - name: Install Build-Deps
-      if: ${{ inputs.no_install_deps == 'false' }}
+      if: ${{ inputs.no-install-deps == 'false' }}
       working-directory: ${{ inputs.ksrc }}
       shell: sh
       env:
@@ -62,7 +62,7 @@ runs:
       working-directory: ${{ inputs.ksrc }}
       shell: bash
       env:
-        INPUT_BUILD_TYPE: ${{ inputs.build_type }}
+        INPUT_BUILD_TYPE: ${{ inputs.build-type }}
         OUT: ${{ steps.prepare.outputs.out }}
       run: |
         set -euxo pipefail

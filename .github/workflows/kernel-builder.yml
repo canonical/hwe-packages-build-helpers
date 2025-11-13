@@ -57,7 +57,7 @@ jobs:
         uses: ./actions/kernel-builder
         with:
           ksrc: 'linux'
-          build_type: 'source'
+          build-type: 'source'
 
       - name: Check built files
         env:
@@ -102,7 +102,7 @@ jobs:
         uses: ./actions/kernel-builder
         with:
           ksrc: 'linux'
-          no_install_deps: 'true'
+          no-install-deps: 'true'
         continue-on-error: true
 
       - name: Expect failure
@@ -117,4 +117,4 @@ jobs:
     with:
       repository: ${{ github.repository }}
       ref: linux/noble/latest
-      retention_days: 7
+      retention-days: 7
