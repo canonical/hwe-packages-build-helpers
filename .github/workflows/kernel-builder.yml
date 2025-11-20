@@ -35,12 +35,12 @@ jobs:
           echo "series=${series}" | tee -a "${GITHUB_OUTPUT}"
 
       - name: Checkout workflows
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
 
       - name: Checkout kernel tree
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ format('linux/{0}/latest', steps.inspect.outputs.series) }}
           path: 'linux'
@@ -86,12 +86,12 @@ jobs:
           echo "series=${series}" | tee -a "${GITHUB_OUTPUT}"
 
       - name: Checkout workflows
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
 
       - name: Checkout kernel tree
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ format('linux/{0}/latest', steps.inspect.outputs.series) }}
           path: 'linux'
