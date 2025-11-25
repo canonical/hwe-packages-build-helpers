@@ -5507,7 +5507,11 @@ bool rtl_aspm_new_dell_platforms(void)
 		"Dell Desktops",
 		"Dell Pro Desktops",
 		"Dell Pro Max Desktops",
-		"Dell Pro Rugged Laptops"
+		"Dell Pro Rugged Laptops",
+		"Dell Pro Precision",
+		"Dell Pro Essential",
+		"Dell Pro Education",
+		"XPS"
 	};
 	int i;
 
