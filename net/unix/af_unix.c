@@ -2584,7 +2584,7 @@ static int unix_stream_recv_urg(struct unix_stream_read_state *state)
 static struct sk_buff *manage_oob(struct sk_buff *skb, struct sock *sk,
 				  int flags, int copied)
 {
-	struct sk_buff *read_skb = NULL, *unread_skb = NULL;
+	struct sk_buff *unlinked_skb = NULL;
 	struct unix_sock *u = unix_sk(sk);
 
 	if (!unix_skb_len(skb)) {
@@ -2595,14 +2595,14 @@ static struct sk_buff *manage_oob(struct sk_buff *skb, struct sock *sk,
 		} else if (flags & MSG_PEEK) {
 			skb = skb_peek_next(skb, &sk->sk_receive_queue);
 		} else {
-			read_skb = skb;
+			unlinked_skb = skb;
 			skb = skb_peek_next(skb, &sk->sk_receive_queue);
-			__skb_unlink(read_skb, &sk->sk_receive_queue);
+			__skb_unlink(unlinked_skb, &sk->sk_receive_queue);
 		}
 
 		spin_unlock(&sk->sk_receive_queue.lock);
 
-		consume_skb(read_skb);
+		consume_skb(unlinked_skb);
 		return skb;
 	}
 
@@ -2618,7 +2618,7 @@ static struct sk_buff *manage_oob(struct sk_buff *skb, struct sock *sk,
 
 		if (!sock_flag(sk, SOCK_URGINLINE)) {
 			__skb_unlink(skb, &sk->sk_receive_queue);
-			unread_skb = skb;
+			unlinked_skb = skb;
 			skb = skb_peek(&sk->sk_receive_queue);
 		}
 	} else if (!sock_flag(sk, SOCK_URGINLINE)) {
@@ -2628,7 +2628,7 @@ static struct sk_buff *manage_oob(struct sk_buff *skb, struct sock *sk,
 unlock:
 	spin_unlock(&sk->sk_receive_queue.lock);
 
-	kfree_skb(unread_skb);
+	kfree_skb(unlinked_skb);
 
 	return skb;
 }
