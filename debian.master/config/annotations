@@ -13675,6 +13675,10 @@ CONFIG_SND_SOC_SC8280XP                         policy<{'arm64': 'm', 'armhf': '
 CONFIG_SND_SOC_SDCA                             policy<{'amd64': 'm'}>
 CONFIG_SND_SOC_SDCA_HID                         policy<{'amd64': 'y'}>
 CONFIG_SND_SOC_SDCA_IRQ                         policy<{'amd64': 'y'}>
+CONFIG_SND_SOC_SDCA_CLASS_FUNCTION		policy<{'amd64': 'm'}>
+CONFIG_SND_SOC_SDCA_CLASS			policy<{'amd64': 'm'}>
+CONFIG_SND_SOC_SDCA_FDL				policy<{'amd64': 'y'}>
+
 CONFIG_SND_SOC_SDCA_OPTIONAL                    policy<{'amd64': 'm', 'arm64': 'm', 'armhf': 'y', 'ppc64el': 'm', 'riscv64': 'm'}>
 CONFIG_SND_SOC_SDM845                           policy<{'arm64': 'm', 'armhf': 'm'}>
 CONFIG_SND_SOC_SDW_MOCKUP                       policy<{'amd64': 'm', 'arm64': 'm', 'armhf': 'm', 'ppc64el': 'm', 'riscv64': 'm'}>
