@@ -2846,18 +2846,6 @@ enum {
 	ALC262_FIXUP_INTEL_BAYLEYBAY,
 };
 
-static void alc236_fixup_hp_mute_led_micmute_gpio(struct hda_codec *codec,
-				const struct hda_fixup *fix, int action)
-{
-	struct alc_spec *spec = codec->spec;
-
-	if (action == HDA_FIXUP_ACT_PRE_PROBE)
-		spec->micmute_led_polarity = 1;
-
-	alc236_fixup_hp_mute_led_coefbit2(codec, fix, action);
-	alc_fixup_hp_gpio_led(codec, action, 0x00, 0x01);
-}
-
 static const struct hda_fixup alc262_fixups[] = {
 	[ALC262_FIXUP_FSC_H270] = {
 		.type = HDA_FIXUP_PINS,
@@ -9568,7 +9556,9 @@ static const struct hda_fixup alc269_fixups[] = {
 	},
 	[ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO] = {
 		.type = HDA_FIXUP_FUNC,
-		.v.func = alc236_fixup_hp_mute_led_micmute_gpio,
+		.v.func = alc236_fixup_hp_mute_led_coefbit2,
+		.chained = true,
+		.chain_id = ALC236_FIXUP_HP_GPIO_LED,
 	},
 	[ALC236_FIXUP_LENOVO_INV_DMIC] = {
 		.type = HDA_FIXUP_FUNC,
