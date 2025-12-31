@@ -584,7 +584,7 @@ int tb_path_activate(struct tb_path *path)
 	tb_dbg(path->tb, "%s path activation complete\n", path->name);
 	return 0;
 err:
-	tb_WARN(path->tb, "%s path activation failed\n", path->name);
+	tb_warn(path->tb, "%s path activation failed: %d\n", path->name, res);
 	return res;
 }
 
