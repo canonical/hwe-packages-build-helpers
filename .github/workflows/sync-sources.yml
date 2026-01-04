@@ -1,0 +1,109 @@
+---
+name: Sync tracking sources
+
+on:
+  workflow_dispatch:
+    #checkov:skip=CKV_GHA_7:Deliberately keep a try_run option
+    inputs:
+      try_run:
+        description: 'Do not actually push new HEADs'
+        required: true
+        type: boolean
+  schedule:
+    - cron: '30 4 * * 0'
+
+permissions:
+  contents: read
+
+jobs:
+  sync-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Enumerate tracking branches
+        run: |
+          mapfile -t branches < <(git branch --remotes --list 'origin/linux*' | cut -d/ -f2,3 | sort -u)
+          echo "TRACKING_SOURCES=${branches[*]}" | tee -a "${GITHUB_ENV}"
+
+      - name: Fetch remotes
+        run: |
+          git remote add noble https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/noble
+          git remote add oem-noble https://git.launchpad.net/~canonical-kernel/ubuntu/+source/linux-oem/+git/noble
+          git fetch -p --all
+
+      - name: Collect updating refs
+        run: |
+          declare -a refspecs
+
+          # Latest
+          #shellcheck disable=SC2086
+          for source in ${TRACKING_SOURCES}; do
+            series="${source#*/}"
+            package="${source%/*}"
+
+            remote_branch=
+            flavor=
+            case "${package}" in
+              linux)
+                remote_branch="${series}/master-next"
+                flavor=master
+                tag_prefix=Ubuntu
+                ;;
+              linux-hwe-*)
+                remote_branch="${series}/${package#linux-}-next"
+                flavor="${package#linux-}"
+                tag_prefix="Ubuntu-${package#linux-}"
+                ;;
+              linux-oem-*)
+                remote_branch="oem-${series}/${package#linux-}-next"
+                flavor=oem
+                tag_prefix="Ubuntu-${package#linux-}"
+                ;;
+              *)
+                echo "Unsupported source ${source}" >&2; exit 1
+                ;;
+            esac
+
+            mapfile -t versions < <(git show ${remote_branch}:debian.${flavor}/changelog | awk "/^${package} / { print \$2 }" | tr -d '()' | tr '~' '_')
+            for version in "${versions[@]}"; do
+              latest_tag="$(git tag -l | { grep "^${tag_prefix}-${version}\$" || true; })"
+              if [ -n "${latest_tag}" ]; then
+                tagged_commit="$(git rev-parse "${latest_tag}^{}")"
+                refspecs+=("${tagged_commit}:refs/heads/${source}/latest")
+                break
+              fi
+            done
+
+            case "${package}" in
+              linux)
+                refspecs+=("${series}/master-next:refs/heads/${source}/staging")
+                ;;
+              linux-hwe-*)
+                refspecs+=("${series}/${package#linux-}-next:refs/heads/${source}/staging")
+                ;;
+              linux-oem-*)
+                refspecs+=("oem-${series}/${package#linux-}-next:refs/heads/${source}/staging")
+                ;;
+              *)
+                echo "Unsupported source ${source}" >&2; exit 1
+                ;;
+            esac
+          done
+
+          echo "PUSH_REFSPECS=${refspecs[*]}" | tee -a "${GITHUB_ENV}"
+
+      - name: Push changes
+        if:
+          ${{ (github.event_name == 'schedule' || !inputs.try_run) &&
+          contains(env.PUSH_REFSPECS, ':') }}
+        run: |
+          github_server_proto="${GITHUB_SERVER_URL%%//*}"
+          github_server_host="${GITHUB_SERVER_URL#*//}"
+          remote="${github_server_proto}//${{ secrets.REPO_SYNC_TOKEN }}@${github_server_host}/${GITHUB_REPOSITORY}.git"
+
+          #shellcheck disable=SC2086
+          git push --force --atomic "${remote}" ${PUSH_REFSPECS}
