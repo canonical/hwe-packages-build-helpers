@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # Super-linter expects non-shallow branches being inspected, but
           # we don't want to clone full repository, which contains branches

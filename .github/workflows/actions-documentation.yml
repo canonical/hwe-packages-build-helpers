@@ -28,7 +28,7 @@ jobs:
     outputs:
       actions: ${{ steps.jq.outputs.actions }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - id: jq
         run: |
           # See https://github.com/koalaman/shellcheck/issues/3149
@@ -47,7 +47,7 @@ jobs:
         action:
           ${{ fromJSON(needs.locate-actions-with-params.outputs.actions) }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: .github/scripts/update-action-readme.sh ${{ matrix.action }}
       - run: git diff; test -z "$(git status | grep modified)"
 
@@ -56,7 +56,7 @@ jobs:
     outputs:
       workflows: ${{ steps.jq.outputs.workflows }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - id: jq
         run: |
           json="$(find .github/workflows -type f -name "shared-*.yml" -print | \
@@ -72,6 +72,6 @@ jobs:
         workflow:
           ${{ fromJSON(needs.locate-shared-workflows.outputs.workflows) }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: .github/scripts/update-workflow-readme.sh ${{ matrix.workflow }}
       - run: git diff; test -z "$(git status | grep modified)"
