@@ -1652,7 +1652,6 @@ CONFIG_ARM64_HW_AFDBM                           policy<{'arm64': 'y'}>
 CONFIG_ARM64_LD_HAS_FIX_ERRATUM_843419          policy<{'arm64': 'y'}>
 CONFIG_ARM64_LSE_ATOMICS                        policy<{'arm64': 'y'}>
 CONFIG_ARM64_MTE                                policy<{'arm64': 'y'}>
-CONFIG_ARM64_PAGE_SHIFT                         policy<{'arm64': '12', 'arm64-generic-64k': '16'}>
 CONFIG_ARM64_PAN                                policy<{'arm64': 'y'}>
 CONFIG_ARM64_PA_BITS                            policy<{'arm64': '48'}>
 CONFIG_ARM64_PA_BITS_48                         policy<{'arm64': 'y'}>
@@ -5719,6 +5718,8 @@ CONFIG_HAVE_OBJTOOL                             policy<{'amd64': 'y', 'ppc64el':
 CONFIG_HAVE_OBJTOOL_MCOUNT                      policy<{'amd64': 'y', 'ppc64el': 'y'}>
 CONFIG_HAVE_OBJTOOL_NOP_MCOUNT                  policy<{'amd64': 'y'}>
 CONFIG_HAVE_OPTPROBES                           policy<{'amd64': 'y', 'armhf': 'y', 'ppc64el': 'y'}>
+CONFIG_HAVE_PAGE_SIZE_4KB                       policy<{'arm64-generic': 'y'}>
+CONFIG_HAVE_PAGE_SIZE_64KB                      policy<{'arm64-generic-64k': 'y', 'ppc64el': 'y'}>
 CONFIG_HAVE_PCI                                 policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y', 's390x': 'y'}>
 CONFIG_HAVE_PCSPKR_PLATFORM                     policy<{'amd64': 'y', 'ppc64el': 'y'}>
 CONFIG_HAVE_PERF_EVENTS                         policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y', 's390x': 'y'}>
@@ -9448,7 +9449,9 @@ CONFIG_PAGE_OWNER                               policy<{'amd64': 'n', 'arm64': '
 CONFIG_PAGE_POOL                                policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y', 's390x': 'y'}>
 CONFIG_PAGE_POOL_STATS                          policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y', 's390x': 'y'}>
 CONFIG_PAGE_REPORTING                           policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y', 's390x': 'y'}>
-CONFIG_PAGE_SIZE_64KB                           policy<{'ppc64el': 'y'}>
+CONFIG_PAGE_SHIFT                               policy<{'arm64-generic': '12', 'arm64-generic-64k': '16', 'ppc64el': '16'}>
+CONFIG_PAGE_SIZE_4KB                            policy<{'arm64-generic': 'y'}>
+CONFIG_PAGE_SIZE_64KB                           policy<{'arm64-generic-64k': 'y', 'ppc64el': 'y'}>
 CONFIG_PAGE_SIZE_LESS_THAN_256KB                policy<{'amd64': 'y', 'arm64': 'y', 'armhf': 'y', 'ppc64el': 'y', 'riscv64': 'y', 's390x': 'y'}>
 CONFIG_PAGE_SIZE_LESS_THAN_64KB                 policy<{'amd64': 'y', 'arm64': 'y', 'arm64-generic-64k': '-', 'armhf': 'y', 'riscv64': 'y', 's390x': 'y'}>
 CONFIG_PAGE_TABLE_CHECK                         policy<{'amd64': 'n', 'arm64': 'n', 'riscv64': 'n'}>
@@ -10307,7 +10310,6 @@ CONFIG_PPC_MEMTRACE                             policy<{'ppc64el': 'y'}>
 CONFIG_PPC_MSI_BITMAP                           policy<{'ppc64el': 'y'}>
 CONFIG_PPC_OF_BOOT_TRAMPOLINE                   policy<{'ppc64el': 'y'}>
 CONFIG_PPC_P7_NAP                               policy<{'ppc64el': 'y'}>
-CONFIG_PPC_PAGE_SHIFT                           policy<{'ppc64el': '16'}>
 CONFIG_PPC_PERF_CTRS                            policy<{'ppc64el': 'y'}>
 CONFIG_PPC_PKEY                                 policy<{'ppc64el': 'y'}>
 CONFIG_PPC_POWERNV                              policy<{'ppc64el': 'y'}>
