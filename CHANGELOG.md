@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.1](https://github.com/canonical/hwe-packages-build-helpers/compare/v1.0.0...v1.0.1) (2026-01-06)
+
+
+### 🧰 Maintenance
+
+* **deps:** update actions/checkout action to v6 ([09eea62](https://github.com/canonical/hwe-packages-build-helpers/commit/09eea62fe2800732889cbd22099aff907cb84437))
+* **deps:** update actions/checkout action to v6 ([e1750e2](https://github.com/canonical/hwe-packages-build-helpers/commit/e1750e25c257151504b0dddcd7c006ed8e47fdff))
+* **deps:** update actions/upload-artifact action to v6 ([dee6c08](https://github.com/canonical/hwe-packages-build-helpers/commit/dee6c08f599945d92cc2b6b8d9e840c0b7d7593f))
+* **deps:** update actions/upload-artifact action to v6 ([cfd2917](https://github.com/canonical/hwe-packages-build-helpers/commit/cfd29170a9f34d4d5ea7ca4e765a76b5ea324a31))
+
+
+### 🧰 Testing
+
+* add workflow that syncs tracking sources ([531149f](https://github.com/canonical/hwe-packages-build-helpers/commit/531149fef0b8617a60b5b7dfe7a9e622a48b7d03))
+
 ## 1.0.0 (2025-11-13)
 
 ### 🚀 Features
