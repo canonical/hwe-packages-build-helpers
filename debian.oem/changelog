@@ -1,3 +1,6 @@
+linux-oem-6.17 (6.17.0-1009.9-i-am-test) noble; urgency=medium
+  - Jamie test
+
 linux-oem-6.17 (6.17.0-1009.9) noble; urgency=medium
 
   * noble/linux-oem-6.17: 6.17.0-1009.9 -proposed tracker (LP: #2136788)
