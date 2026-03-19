@@ -1,3 +1,9 @@
+linux-oem-7.0 (7.0.0-1000.0) resolute; urgency=medium
+
+  * Initial changelog entry.
+
+ -- Kuan-Ying Lee <kuan-ying.lee@canonical.com>  Thu, 19 Mar 2026 15:53:00 +0800
+
 linux (7.0.0-9.9) resolute; urgency=medium
 
   * resolute/linux: 7.0.0-9.9 -proposed tracker (LP: #2144735)
