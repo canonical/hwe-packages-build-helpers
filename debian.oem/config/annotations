@@ -5,3 +5,9 @@
 # FLAVOUR_DEP: {'amd64-oem': 'amd64-generic'}
 
 include "../../debian.master/config/annotations"
+
+
+# ---- Annotations without notes ----
+
+CONFIG_CC_VERSION_TEXT                          policy<{'amd64': '"x86_64-linux-gnu-gcc (Ubuntu 15.2.0-15ubuntu1) 15.2.0"'}>
+CONFIG_PAHOLE_VERSION                           policy<{'amd64': '131'}>
