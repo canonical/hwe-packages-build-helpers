@@ -289,6 +289,9 @@ static int adis16260_write_raw(struct iio_dev *indio_dev,
 		return adis_write_reg_16(adis, addr, val);
 	case IIO_CHAN_INFO_SAMP_FREQ:
 		adis_dev_lock(adis);
+		if (val <= 0)
+			return -EINVAL;
+
 		if (spi_get_device_id(adis->spi)->driver_data)
 			t = 256 / val;
 		else
