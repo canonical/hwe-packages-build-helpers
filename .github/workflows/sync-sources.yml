@@ -31,8 +31,26 @@ jobs:
 
       - name: Fetch remotes
         run: |
-          git remote add noble https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/noble
-          git remote add oem-noble https://git.launchpad.net/~canonical-kernel/ubuntu/+source/linux-oem/+git/noble
+          #shellcheck disable=SC2086
+          for source in ${TRACKING_SOURCES}; do
+            series="${source#*/}"
+            package="${source%/*}"
+            case "${package}" in
+              linux|linux-hwe-*)
+                if ! git remote get-url "${series}"; then
+                  git remote add "${series}" "https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/${series}"
+                fi
+                ;;
+              linux-oem-*)
+                if ! git remote get-url "oem-${series}"; then
+                  git remote add "oem-${series}" "https://git.launchpad.net/~canonical-kernel/ubuntu/+source/linux-oem/+git/${series}"
+                fi
+                ;;
+              *)
+                echo "Unsupported source ${source}" >&2; exit 1
+                ;;
+            esac
+          done
           git fetch -p --all
 
       - name: Collect updating refs
