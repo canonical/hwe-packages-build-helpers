@@ -2,6 +2,14 @@
 
 # Changelog
 
+## [1.0.2](https://github.com/canonical/hwe-packages-build-helpers/compare/v1.0.1...v1.0.2) (2026-04-15)
+
+
+### 🧰 Testing
+
+* sync-sources: support kernels of non-noble series ([bab19e0](https://github.com/canonical/hwe-packages-build-helpers/commit/bab19e00b8a281fb457d38da70be5d08314fc6cc))
+* sync-sources: support kernels of non-noble series ([63a66b3](https://github.com/canonical/hwe-packages-build-helpers/commit/63a66b3d483a23cb00d8255bbab7e8752b0d7ac7))
+
 ## [1.0.1](https://github.com/canonical/hwe-packages-build-helpers/compare/v1.0.0...v1.0.1) (2026-04-15)
 
 ### 🧰 Maintenance
