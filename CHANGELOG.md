@@ -1,4 +1,28 @@
+<!-- markdownlint-disable MD024 -->
+
 # Changelog
+
+## [1.0.1](https://github.com/canonical/hwe-packages-build-helpers/compare/v1.0.0...v1.0.1) (2026-04-15)
+
+### 🧰 Maintenance
+
+- **deps:** update actions/checkout action to v6
+  ([09eea62](https://github.com/canonical/hwe-packages-build-helpers/commit/09eea62fe2800732889cbd22099aff907cb84437))
+- **deps:** update actions/checkout action to v6
+  ([e1750e2](https://github.com/canonical/hwe-packages-build-helpers/commit/e1750e25c257151504b0dddcd7c006ed8e47fdff))
+- **deps:** update actions/upload-artifact action to v6
+  ([dee6c08](https://github.com/canonical/hwe-packages-build-helpers/commit/dee6c08f599945d92cc2b6b8d9e840c0b7d7593f))
+- **deps:** update actions/upload-artifact action to v6
+  ([cfd2917](https://github.com/canonical/hwe-packages-build-helpers/commit/cfd29170a9f34d4d5ea7ca4e765a76b5ea324a31))
+- **deps:** update actions/upload-artifact action to v7
+  ([dd7035f](https://github.com/canonical/hwe-packages-build-helpers/commit/dd7035f4510ee07ba8aa768359f370c8e40cb020))
+- **deps:** update actions/upload-artifact action to v7
+  ([033c2fd](https://github.com/canonical/hwe-packages-build-helpers/commit/033c2fd6bf1d4b2bfab117957f3d1a23ed4a8bb3))
+
+### 🧰 Testing
+
+- add workflow that syncs tracking sources
+  ([531149f](https://github.com/canonical/hwe-packages-build-helpers/commit/531149fef0b8617a60b5b7dfe7a9e622a48b7d03))
 
 ## 1.0.0 (2025-11-13)
 
