@@ -479,6 +479,7 @@ static inline void *kunit_kcalloc(struct kunit *test, size_t n, size_t size, gfp
 }
 
 void kunit_cleanup(struct kunit *test);
+void kunit_free_boot_suites(void);
 
 void __printf(2, 3) kunit_log_append(struct string_stream *log, const char *fmt, ...);
 
