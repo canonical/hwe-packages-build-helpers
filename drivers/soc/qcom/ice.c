@@ -306,7 +306,7 @@ struct qcom_ice *of_qcom_ice_get(struct device *dev)
 	pdev = of_find_device_by_node(node);
 	if (!pdev) {
 		dev_err(dev, "Cannot find device node %s\n", node->name);
-		ice = ERR_PTR(-EPROBE_DEFER);
+		ice = ERR_PTR(-ENODEV);
 		goto out;
 	}
 
