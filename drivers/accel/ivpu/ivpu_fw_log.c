@@ -98,6 +98,11 @@ static void fw_log_print_buffer(struct vpu_tracing_buffer_header *log, const cha
 	u32 log_start = log->read_index;
 	u32 log_end = log->write_index;
 
+	if (log_start >= data_size)
+		log_start = 0;
+	if (log_end > data_size)
+		log_end = data_size;
+
 	if (!(log->write_index || log->wrap_count) ||
 	    (log->write_index == log->read_index && only_new_msgs)) {
 		drm_printf(p, "==== %s \"%s\" log empty ====\n", prefix, log->name);
