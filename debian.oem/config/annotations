@@ -6,3 +6,8 @@
 
 include "../../debian.master/config/annotations"
 
+
+# ---- Annotations without notes ----
+
+CONFIG_USB4_CONFIGFS                            policy<{'amd64': 'm'}>
+CONFIG_USB4_STREAM                              policy<{'amd64': 'n'}>
