@@ -105,7 +105,7 @@ static bool intel_tc_port_in_mode(struct intel_digital_port *dig_port,
 	enum phy phy = intel_port_to_phy(i915, dig_port->base.port);
 	struct intel_tc_port *tc = to_tc_port(dig_port);
 
-	return intel_phy_is_tc(i915, phy) && tc->mode == mode;
+	return intel_phy_is_tc(i915, phy) && tc && tc->mode == mode;
 }
 
 bool intel_tc_port_in_tbt_alt_mode(struct intel_digital_port *dig_port)

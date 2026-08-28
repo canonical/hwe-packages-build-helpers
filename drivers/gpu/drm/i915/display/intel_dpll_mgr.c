@@ -3386,6 +3386,13 @@ err_unreference_tbt_pll:
 	return ret;
 }
 
+static bool icl_encoder_has_tc_port(struct intel_encoder *encoder)
+{
+	struct intel_digital_port *dig_port = enc_to_dig_port(encoder);
+
+	return dig_port && dig_port->tc;
+}
+
 static int icl_compute_dplls(struct intel_atomic_state *state,
 			     struct intel_crtc *crtc,
 			     struct intel_encoder *encoder)
@@ -3395,8 +3402,10 @@ static int icl_compute_dplls(struct intel_atomic_state *state,
 
 	if (intel_phy_is_combo(i915, phy))
 		return icl_compute_combo_phy_dpll(state, crtc);
-	else if (intel_phy_is_tc(i915, phy))
+	else if (intel_phy_is_tc(i915, phy) && icl_encoder_has_tc_port(encoder))
 		return icl_compute_tc_phy_dplls(state, crtc);
+	else if (intel_phy_is_tc(i915, phy))
+		return icl_compute_combo_phy_dpll(state, crtc);
 
 	MISSING_CASE(phy);
 
@@ -3412,8 +3421,10 @@ static int icl_get_dplls(struct intel_atomic_state *state,
 
 	if (intel_phy_is_combo(i915, phy))
 		return icl_get_combo_phy_dpll(state, crtc, encoder);
-	else if (intel_phy_is_tc(i915, phy))
+	else if (intel_phy_is_tc(i915, phy) && icl_encoder_has_tc_port(encoder))
 		return icl_get_tc_phy_dplls(state, crtc, encoder);
+	else if (intel_phy_is_tc(i915, phy))
+		return icl_get_combo_phy_dpll(state, crtc, encoder);
 
 	MISSING_CASE(phy);
 
