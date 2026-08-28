@@ -2514,6 +2514,54 @@ static void sanitize_hdmi_level_shift(struct intel_bios_encoder_data *devdata,
 	}
 }
 
+static void sanitize_dedicated_external(struct intel_bios_encoder_data *devdata,
+					enum port port)
+{
+	struct drm_i915_private *i915 = devdata->i915;
+
+	if (!intel_bios_encoder_is_dedicated_external(devdata))
+		return;
+
+	/*
+	 * Since dedicated_external is for ports connected to PHYs outside of
+	 * the Type-C subsystem, clear bits that would only make sense for ports
+	 * with PHYs in the Type-C subsystem.
+	 */
+
+	/*
+	 * Bit dp_usb_type_c is marked as "don't care" in Bspec when
+	 * dedicated_external is set.
+	 */
+	if (devdata->child.dp_usb_type_c) {
+		drm_dbg_kms(&i915->drm,
+			    "VBT claims Port %c supports USB Type-C, but the port is dedicated external, ignoring\n",
+			    port_name(port));
+		devdata->child.dp_usb_type_c = 0;
+	}
+
+	/*
+	 * Bit tbt is marked as "don't care" in Bspec when dedicated_external is
+	 * set.
+	 */
+	if (devdata->child.tbt) {
+		drm_dbg_kms(&i915->drm,
+			    "VBT claims Port %c supports TBT, but the port is dedicated external, ignoring\n",
+			    port_name(port));
+		devdata->child.tbt = 0;
+	}
+
+	/*
+	 * DDI allocation for TC capable ports only make sense for PHYs in the
+	 * Type-C subsystem.
+	 */
+	if (devdata->child.dyn_port_over_tc) {
+		drm_dbg_kms(&i915->drm,
+			    "VBT claims Port %c supports dynamic DDI allocation in TCSS, but the port is dedicated external, ignoring\n",
+			    port_name(port));
+		devdata->child.dyn_port_over_tc = 0;
+	}
+}
+
 static bool
 intel_bios_encoder_supports_crt(const struct intel_bios_encoder_data *devdata)
 {
@@ -2635,6 +2683,16 @@ static void print_ddi_port(const struct intel_bios_encoder_data *devdata)
 		    supports_typec_usb, supports_tbt,
 		    devdata->dsc != NULL);
 
+	if (intel_bios_encoder_is_dedicated_external(devdata))
+		drm_dbg_kms(&i915->drm,
+			    "Port %c is dedicated external\n",
+			    port_name(port));
+
+	if (intel_bios_encoder_supports_dyn_port_over_tc(devdata))
+		drm_dbg_kms(&i915->drm,
+			    "Port %c supports dynamic DDI allocation in TCSS\n",
+			    port_name(port));
+
 	hdmi_level_shift = intel_bios_hdmi_level_shift(devdata);
 	if (hdmi_level_shift >= 0) {
 		drm_dbg_kms(&i915->drm,
@@ -2692,6 +2750,7 @@ static void parse_ddi_port(struct intel_bios_encoder_data *devdata)
 		return;
 	}
 
+	sanitize_dedicated_external(devdata, port);
 	sanitize_device_type(devdata, port);
 	sanitize_hdmi_level_shift(devdata, port);
 }
@@ -3645,6 +3704,18 @@ bool intel_bios_encoder_supports_typec_usb(const struct intel_bios_encoder_data 
 bool intel_bios_encoder_supports_tbt(const struct intel_bios_encoder_data *devdata)
 {
 	return devdata->i915->display.vbt.version >= 209 && devdata->child.tbt;
+}
+
+bool intel_bios_encoder_is_dedicated_external(const struct intel_bios_encoder_data *devdata)
+{
+	return devdata->i915->display.vbt.version >= 264 &&
+		devdata->child.dedicated_external;
+}
+
+bool intel_bios_encoder_supports_dyn_port_over_tc(const struct intel_bios_encoder_data *devdata)
+{
+	return devdata->i915->display.vbt.version >= 264 &&
+		devdata->child.dyn_port_over_tc;
 }
 
 bool intel_bios_encoder_lane_reversal(const struct intel_bios_encoder_data *devdata)
